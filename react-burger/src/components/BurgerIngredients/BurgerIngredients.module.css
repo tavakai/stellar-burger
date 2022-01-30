@@ -1,0 +1,35 @@
+.section {
+  display: flex;
+  max-width: 600px;
+  font-family: 'JetBrains Mono';
+  flex-direction: column;
+}
+.title {
+  color: #F2F2F3;
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: bold;
+  margin: 0;
+  text-align: left;
+}
+.tabsContainer {
+  display: flex;
+}
+.list_wrapper {
+  height: 60vh;
+  /* display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 20px; */
+  overflow-y: overlay;
+  overflow-x: hidden;
+}
+.list_wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+.list_wrapper::-webkit-scrollbar-track {
+  background-color: #2F2F37;        /* color of the tracking area */
+  margin-bottom: 52px;
+}
+.list_wrapper::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}

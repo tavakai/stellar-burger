@@ -1,0 +1,15 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 272px;
+  width: 100%;
+  position: relative;
+}
+.img {
+  max-width: 240px;
+  width: 100%;
+}
+.price_value {
+  composes: text text_type_digits-medium mr-2 from global;
+}
