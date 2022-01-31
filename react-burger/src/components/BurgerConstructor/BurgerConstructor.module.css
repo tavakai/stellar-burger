@@ -1,10 +1,13 @@
+.wrapper {
+  composes: mt-25 from global;
+}
 .list {
-  height: 656px;
+  height: 464px;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  composes: pl-4 pr-4 from global;
+  composes: mt-4 mb-4 pr-4 from global;
 }
 .list_item {
   display: flex;
@@ -25,7 +28,7 @@
 .totalPrice_wrapper {
   display: flex;
   justify-content: flex-end;
-  composes: mr-4 from global;
+  composes: mt-10 mr-4 from global;
   align-items: center;
 }
 .totalPrice_icon {

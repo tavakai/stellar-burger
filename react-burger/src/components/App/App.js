@@ -13,8 +13,9 @@ function App() {
   const [show, setShow] = useState(false);
   const [currentDataInModal, setCurrentDataInModal] = useState(null);
   const [orderDetails, setOrderDetails] = useState(false);
+  const [onlyIngredients, setOnlyIngredients] = useState([]);
 
-  function showModal(currentInfo) {
+  const showModal = (currentInfo) => {
     setShow(true);
     if(currentInfo === "order") {
       setOrderDetails(true);
@@ -28,6 +29,10 @@ function App() {
     setCurrentDataInModal(null);
     setOrderDetails(false);
   }
+
+  const getOnlyIngredients = (burgersData) => {
+    return burgersData.filter(el => el.type !== 'bun')
+  }
   
   useEffect(() => {
     api.getIngredients()
@@ -36,6 +41,7 @@ function App() {
       })
       .then(res => {
         setData(res);
+        setOnlyIngredients(getOnlyIngredients(res))
       })
       .catch(err => {
         console.log(err);
@@ -51,11 +57,11 @@ function App() {
           hideModal={hideModal}
         />
         <BurgerConstructor
-          data={data}
+          data={onlyIngredients}
           showModal={showModal} />
         {
           show && currentDataInModal &&
-          <Modal show={show} hideModal={hideModal}>
+          <Modal show={show} hideModal={hideModal} title="Детали ингредиента" >
             <IngredientDetails data={currentDataInModal} />
           </Modal>
         }

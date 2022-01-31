@@ -14,7 +14,7 @@ const ModalOverlay = ({show, closeModal, children}) => {
 }
 
 ModalOverlay.propTypes = {
-  show: PropTypes.string,
+  show: PropTypes.bool,
   closeModal: PropTypes.func,
   children: PropTypes.element
 }

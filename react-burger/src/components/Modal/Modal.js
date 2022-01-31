@@ -1,4 +1,3 @@
-import Margin from "../Margin/Margin";
 import style from './Modal.module.css';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ReactDOM from "react-dom";
@@ -8,7 +7,7 @@ import PropTypes from 'prop-types';
 
 const modalRoot = document.getElementById("modals");
 
-const Modal = ({show, hideModal, header, children}) => {
+const Modal = ({show, hideModal, header, children, title}) => {
   const closeModal = () => {
     hideModal(false);
   }
@@ -30,17 +29,17 @@ const Modal = ({show, hideModal, header, children}) => {
       show &&
       ReactDOM.createPortal(
         <>
+        <ModalOverlay show={show} closeModal={closeModal}>
           <div className={style.wrapper}>
-          <Margin margin="m-5" />
           <div className={!header ? style.header : style.header_none}>
             {
-            !header && <h3 className={style.title}>Детали ингредиента</h3>
+            !header && <h3 className={style.title}>{title}</h3>
             }
             <CloseIcon type="primary" onClick={closeModal} />
           </div>
           { children }
         </div>
-        <ModalOverlay show={show} closeModal={closeModal} />
+        </ModalOverlay>
         </>,
         modalRoot
       )
@@ -53,7 +52,8 @@ Modal.propTypes = {
   show: PropTypes.bool,
   header: PropTypes.bool,
   hideModal: PropTypes.func,
-  children: PropTypes.element
+  children: PropTypes.element,
+  title: PropTypes.string
 }
 
 export default Modal;
