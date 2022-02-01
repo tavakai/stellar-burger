@@ -26,8 +26,8 @@ const BurgerIngredientsTypeList = ({data, title, showModal, hideModal}) => {
 }
 
 BurgerIngredientsTypeList.propTypes = {
-  data: PropTypes.array,
-  title: PropTypes.string,
+  data: PropTypes.array.isRequired,
+  title: PropTypes.string.isRequired,
   showModal: PropTypes.func,
   hideModal: PropTypes.func
 }

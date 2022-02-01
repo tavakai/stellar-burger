@@ -30,7 +30,7 @@ const Modal = ({show, hideModal, header, children, title}) => {
       ReactDOM.createPortal(
         <>
         <ModalOverlay show={show} closeModal={closeModal}>
-          <div className={style.wrapper}>
+          <div className={style.wrapper} onClick={(e) => e.stopPropagation()}>
           <div className={!header ? style.header : style.header_none}>
             {
             !header && <h3 className={style.title}>{title}</h3>
@@ -49,10 +49,10 @@ const Modal = ({show, hideModal, header, children, title}) => {
 }
 
 Modal.propTypes = {
-  show: PropTypes.bool,
+  show: PropTypes.bool.isRequired,
   header: PropTypes.bool,
-  hideModal: PropTypes.func,
-  children: PropTypes.element,
+  hideModal: PropTypes.func.isRequired,
+  children: PropTypes.element.isRequired,
   title: PropTypes.string
 }
 

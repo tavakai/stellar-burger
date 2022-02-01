@@ -19,7 +19,7 @@ const BurgerIngredientsCard = ({item, showModal}) => {
 }
 
 BurgerIngredientsCard.propTypes = {
-  item: PropTypes.object,
+  item: PropTypes.object.isRequired,
   showModal: PropTypes.func
 }
 

@@ -66,7 +66,7 @@ const BurgerIngredients = ({data, showModal, hideModal}) => {
 };
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.array.isRequired,
   showModal: PropTypes.func,
   hideModal: PropTypes.func
 }

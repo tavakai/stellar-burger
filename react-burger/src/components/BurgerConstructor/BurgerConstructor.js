@@ -21,7 +21,6 @@ const BurgerConstructor = ({ data, showModal }) => {
               <div className={style.list_item} key={el._id} >
                 <DragIcon type="primary" />
                 <ConstructorElement
-                // key={el._id} ??
                 text={el.name}
                 price={el.price}
                 thumbnail={el.image}
@@ -51,7 +50,7 @@ const BurgerConstructor = ({ data, showModal }) => {
 };
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.array.isRequired,
   showModal: PropTypes.func
 }
 
