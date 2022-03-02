@@ -1,14 +1,27 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { getIngredients } from '../../services/actions/index';
 import style from "./BurgerIngredients.module.css";
+import style_2 from "./BurgerIngredientsTypesList/BurgerIngredientsTypeList.module.css";
 import BurgerIngredientsTypeList from "./BurgerIngredientsTypesList/BurgerIngredientsTypesList";
-import PropTypes from 'prop-types';
+import { SWITCH_TAB } from '../../services/actions/index';
+import { useSwitchTab } from "../../hooks/useSwitchTab";
 
-const BurgerIngredients = ({data, showModal, hideModal}) => {
-  const [current, setCurrent] = useState("Булки");
-  const _BUN_ = data.filter((el) => el.type === "bun");
-  const _MAIN_ = data.filter((el) => el.type === "main");
-  const _SAUCE_ = data.filter((el) => el.type === "sauce");
+const BurgerIngredients = () => {
+  const dispatch = useDispatch();
+  const { ingredients } = useSelector(store => store.ingredients);
+  const { activeTab } = useSelector(store => store.tabs);
+  const _BUN_ = ingredients.filter((el) => el.type === "bun");
+  const _MAIN_ = ingredients.filter((el) => el.type === "main");
+  const _SAUCE_ = ingredients.filter((el) => el.type === "sauce");
+
+  function tabClick(tab) {
+    dispatch({
+      type: SWITCH_TAB,
+      tab
+    })
+  }
 
   const arrayTypesList = [
     {
@@ -27,22 +40,29 @@ const BurgerIngredients = ({data, showModal, hideModal}) => {
       "data": _MAIN_
     }
   ];
+
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, [])
+
+  // useEffect(() => {
+  //   dispatch({
+  //     type: SWITCH_TAB,
+  //     tab: currentTab
+  //   })
+  // }, [])
   
   return (
     <section className={style.section}>
       <h1 className={style.title}>Соберите бургер</h1>
       <div className={style.tabsContainer}>
-        <Tab value="Булки" active={current === "Булки"} onClick={setCurrent}>
+        <Tab value="Булки" active={activeTab === "Булки"} onClick={() => tabClick("Булки")}>
           Булки
         </Tab>
-        <Tab value="Соусы" active={current === "Соусы"} onClick={setCurrent}>
+        <Tab value="Соусы" active={activeTab === "Соусы"} onClick={() => tabClick( "Соусы")}>
           Соусы
         </Tab>
-        <Tab
-          value="Начинки"
-          active={current === "Начинки"}
-          onClick={setCurrent}
-        >
+        <Tab value="Начинки" active={activeTab === "Начинки"} onClick={() => tabClick("Начинки")}>
           Начинки
         </Tab>
       </div>
@@ -54,8 +74,6 @@ const BurgerIngredients = ({data, showModal, hideModal}) => {
           key={list.id}
           data={list.data}
           title={list.title}
-          showModal={showModal}
-          hideModal={hideModal}
           />
           )
       })
@@ -64,11 +82,5 @@ const BurgerIngredients = ({data, showModal, hideModal}) => {
     </section>
   );
 };
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.array.isRequired,
-  showModal: PropTypes.func,
-  hideModal: PropTypes.func
-}
 
 export default BurgerIngredients;

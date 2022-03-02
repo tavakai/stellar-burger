@@ -3,33 +3,41 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ReactDOM from "react-dom";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { HIDE_MODAL } from '../../services/actions';
 
 const modalRoot = document.getElementById("modals");
 
-const Modal = ({show, hideModal, header, children, title}) => {
+const Modal = ({header, children, title}) => {
+  const dispatch = useDispatch();
+  const { modal } = useSelector(store => store.ingredients);
   const closeModal = () => {
-    hideModal(false);
+    dispatch({
+      type: HIDE_MODAL
+    })
   }
   const handleEsc = (e) => {
-    e.code === 'Escape' && closeModal();
+    e.code === 'Escape' && dispatch({
+      type: HIDE_MODAL
+    })
   }
   useEffect(() => {
-    if(show) {
+    if(modal) {
       document.addEventListener('keydown', handleEsc)
     }
     return () => {
       document.removeEventListener('keydown', handleEsc)
     }
-  }, [show]);
+  }, [modal]);
 
   return (
     <>
     {
-      show &&
+      modal &&
       ReactDOM.createPortal(
         <>
-        <ModalOverlay show={show} closeModal={closeModal}>
+        <ModalOverlay>
           <div className={style.wrapper} onClick={(e) => e.stopPropagation()}>
           <div className={!header ? style.header : style.header_none}>
             {
@@ -49,9 +57,7 @@ const Modal = ({show, hideModal, header, children, title}) => {
 }
 
 Modal.propTypes = {
-  show: PropTypes.bool.isRequired,
   header: PropTypes.bool,
-  hideModal: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
   title: PropTypes.string
 }

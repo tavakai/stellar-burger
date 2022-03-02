@@ -1,10 +1,22 @@
 import style from './BurgerIngredientsCard.module.css';
 import { CurrencyIcon, Counter  } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
+import { SHOW_MODAL, CURRENT_INGREDIENT } from '../../../services/actions/index';
+import { useDispatch } from 'react-redux';
 
-const BurgerIngredientsCard = ({item, showModal}) => {
+const BurgerIngredientsCard = ({item}) => {
+  const dispatch = useDispatch();
+  function handleClickOnCard() {
+    dispatch({
+      type: SHOW_MODAL
+    })
+    dispatch({
+      type: CURRENT_INGREDIENT,
+      currentIngredient: item
+    })
+  }
   return (
-    <div className={style.wrapper} onClick={() => showModal(item)} >
+    <div className={style.wrapper} onClick={() => handleClickOnCard()} >
       <Counter count={1} size="default" />
       <img className={style.img}  src={item.image} alt={item.name} />
       <div className={style.price_wrapper} >
@@ -19,8 +31,7 @@ const BurgerIngredientsCard = ({item, showModal}) => {
 }
 
 BurgerIngredientsCard.propTypes = {
-  item: PropTypes.object.isRequired,
-  showModal: PropTypes.func
+  item: PropTypes.object.isRequired
 }
 
 export default BurgerIngredientsCard;

@@ -1,11 +1,20 @@
 import {
   ConstructorElement, Button, CurrencyIcon, DragIcon
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDispatch, useSelector } from 'react-redux';
 import style from "./BurgerConstructor.module.css";
 import bun_icon from '../../images/icons/bun-02.png';
 import PropTypes from 'prop-types';
+import { SHOW_MODAL } from "../../services/actions";
 
-const BurgerConstructor = ({ data, showModal }) => {
+const BurgerConstructor = ({ showModal }) => {
+  const dispatch = useDispatch();
+  const { ingredientsInConstructor, order } = useSelector(store => store.ingredients);
+  function handleClickOnOrderButton() {
+    dispatch({
+      type: SHOW_MODAL
+    })
+  }
   return (
     <section className={style.wrapper}>
       <ConstructorElement
@@ -16,7 +25,7 @@ const BurgerConstructor = ({ data, showModal }) => {
         thumbnail={bun_icon}
       />
       <div className={style.list}>
-          {data.map((el) => {
+          {ingredientsInConstructor.map((el) => {
           return (
               <div className={style.list_item} key={el._id} >
                 <DragIcon type="primary" />
@@ -50,7 +59,6 @@ const BurgerConstructor = ({ data, showModal }) => {
 };
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.array.isRequired,
   showModal: PropTypes.func
 }
 
