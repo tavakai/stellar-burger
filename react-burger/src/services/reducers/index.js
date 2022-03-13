@@ -8,16 +8,17 @@ import {
 } from '../actions/index';
 import { combineReducers } from 'redux';
 import { tabsReducer } from './tabs';
+import { constructorReducer } from './constructor';
+import { orderReducer } from './order';
 
 const initialState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,
 
-  ingredientsInConstructor: [],
-  currentIngredient: null,
-  order: null,
+  order: false,
 
+  currentIngredient: null,
   modal: false
 }
 
@@ -70,5 +71,7 @@ export const ingredientReducer = (state = initialState, action) => {
 
 export const rootReducer = combineReducers({
   ingredients: ingredientReducer,
-  tabs: tabsReducer
+  tabs: tabsReducer,
+  burgerConstructor: constructorReducer,
+  order: orderReducer
 });

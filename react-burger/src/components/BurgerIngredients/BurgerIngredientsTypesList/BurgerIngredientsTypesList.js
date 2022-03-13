@@ -3,22 +3,39 @@ import style from "./BurgerIngredientsTypeList.module.css";
 import styleParentElement from "../BurgerIngredients.module.css";
 import PropTypes from "prop-types";
 import { useSwitchTab } from "../../../hooks/useSwitchTab";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { SWITCH_TAB } from "../../../services/actions";
 import { useDispatch } from "react-redux";
 
+import { useInView } from 'react-intersection-observer'
+
 const BurgerIngredientsTypeList = ({ data, title }) => {
   const dispatch = useDispatch();
-  const rootRef = useRef(document.querySelector(`.${styleParentElement.list_wrapper}`));
-  const [targetRef, isVisible] = useSwitchTab({
-    root: rootRef.current,
-    rootMargin: '0px 0px 200px 0px',
-    threshold: [0, 1]
-  });
-  
+  // const rootRef = useRef(document.querySelector(`.${styleParentElement.list_wrapper}`));
+  // const {targetRef, currentTab} = useSwitchTab({
+  //   root: rootRef.current,
+  //   rootMargin: '0px 0px 0px 0px',
+  //   threshold: [0.4, 1] 
+  // });
+
+  // useEffect(() => {
+  //   console.log(currentTab);
+  //   if(currentTab !== null) {
+      // console.log(currentTab);
+      // dispatch({
+      //   type: SWITCH_TAB,
+      //   tab
+      // })
+    // }
+  // }, [])
+
+  // const checkCurrentTab = useMemo(() => {
+  //   return console.log(tab);
+  // }, [tab]);
+
   return (
-    <section ref={targetRef}>
-      <h2 ref={targetRef} className={`${style.title} ${style.test}`}>{title}</h2>
+    <section data-id={title}>
+      <h2 className={`${style.title} ${style.test}`}>{title}</h2>
       <div className={style.list}>
         {data.map((el) => {
           return <BurgerIngredientsCard key={el._id} item={el} />;

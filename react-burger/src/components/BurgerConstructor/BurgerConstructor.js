@@ -3,57 +3,139 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from 'react-redux';
 import style from "./BurgerConstructor.module.css";
-import bun_icon from '../../images/icons/bun-02.png';
 import PropTypes from 'prop-types';
-import { SHOW_MODAL } from "../../services/actions";
+import BurgerConstructorItem from "./BurgerConstructorItem/BurgerConstructorItem";
+import { useDrop } from 'react-dnd';
+import {
+  ADD_INGREDIENT_IN_CONSTRUCTOR,
+  DELETE_INGREDIENT_IN_CONSTRUCTOR,
+  MOVE_INGREDIENT_IN_CONSTRUCTOR,
+  ADD_BUN,
+  DELETE_BUN
+} from "../../services/actions";
+import generateKey from "../../utils/generateKey";
+import {BUN, SAUCE, MAIN} from "../../services/types/ingredientTypes";
+import { useRef } from "react";
+import Order from "./Order/Order";
 
 const BurgerConstructor = ({ showModal }) => {
   const dispatch = useDispatch();
-  const { ingredientsInConstructor, order } = useSelector(store => store.ingredients);
-  function handleClickOnOrderButton() {
+  const ref = useRef(null)
+  const { ingredients } = useSelector(store => store.ingredients);
+  const { ingredientsInConstructor, buns } = useSelector(store => store.burgerConstructor);
+  
+  const [{isOver, ingredientType}, constructorDrag] = useDrop({
+    accept: [BUN, SAUCE, MAIN],
+    drop(item) {
+      onDropHandler(item.id);
+    },
+    collect: monitor => ({
+      isOver: monitor.isOver(),
+      ingredientType: monitor.getItemType()
+    })
+  })
+
+  const onDropHandler = (ingredientId) => {
+    const constructorItem = ingredients.find(el => el._id === ingredientId);
+    if(ingredientType === BUN) {
+      dispatch({
+        type: ADD_BUN,
+        bun: constructorItem
+      })
+    } else {
+      dispatch({
+      type: ADD_INGREDIENT_IN_CONSTRUCTOR,
+      constructorItem,
+      key: generateKey()
+    });
+    }
+  }
+
+  const deleteIngredient = (key) => {
+    if(key !== undefined) {
+       dispatch({
+      type: DELETE_INGREDIENT_IN_CONSTRUCTOR,
+      key
+    })
+    } else {
     dispatch({
-      type: SHOW_MODAL
+      type: DELETE_BUN
+    })
+    }
+  }
+
+  const moveIngredient = (dragIndex, hoverIndex) => {
+    const sortedIngredientsArr = [...ingredientsInConstructor];
+    const dragIndexItem = sortedIngredientsArr[dragIndex];
+    sortedIngredientsArr.splice(dragIndex, 1);
+    sortedIngredientsArr.splice(hoverIndex, 0, dragIndexItem);
+
+    dispatch({
+      type: MOVE_INGREDIENT_IN_CONSTRUCTOR,
+      ingredients: sortedIngredientsArr
     })
   }
+
   return (
-    <section className={style.wrapper}>
-      <ConstructorElement
+    <section className={style.wrapper} ref={constructorDrag}>
+      
+      {
+        buns !== null ? (
+          <ConstructorElement
         type="top"
-        isLocked={true}
-        text="Краторная булка N-200i (верх)"
-        price={200}
-        thumbnail={bun_icon}
+        isLocked={false}
+        text={buns.name + ' (верх)'}
+        price={buns.price}
+        thumbnail={buns.image}
+        handleClose={() => deleteIngredient()}
       />
-      <div className={style.list}>
-          {ingredientsInConstructor.map((el) => {
+        ) : (
+          <div className={style.bun_plug_top}>
+          <p>Выберите булку</p>
+          </div>
+        )
+      }
+      <div className={style.list_plug}>
+        {
+          ingredientsInConstructor.length !== 0 ? (
+            <ul className={style.list}>
+          {ingredientsInConstructor.map((el, index) => {
           return (
-              <div className={style.list_item} key={el._id} >
-                <DragIcon type="primary" />
-                <ConstructorElement
-                text={el.name}
-                price={el.price}
-                thumbnail={el.image}
-                />
-              </div>
+             <BurgerConstructorItem 
+              key={el.key}
+              ingredient={el}
+              handleClose={deleteIngredient}
+              moveIngredient={moveIngredient}
+              index={index}
+              />
           );
         })}
+      </ul>
+          ) : (
+            <p>Выберите ингредиенты</p>
+          )
+        }
       </div>
-      <ConstructorElement
+      
+      {
+        buns !== null ? (
+          <ConstructorElement
         type="bottom"
-        isLocked={true}
-        text="Краторная булка N-200i (низ)"
-        price={200}
-        thumbnail={bun_icon}
+        isLocked={false}
+        text={buns.name + ' (низ)'}
+        price={buns.price}
+        thumbnail={buns.image}
+        handleClose={() => deleteIngredient()}
       />
-      <div className={style.totalPrice_wrapper}>
-        <p className={style.totalPrice_value}>610</p>
-        <div className={style.totalPrice_icon}>
-          <CurrencyIcon type="primary" />
-        </div>
-        <Button type="primary" size="large" onClick={() => showModal("order")}>
-          Оформить заказ
-        </Button>
-      </div>
+        ) : (
+          <div className={style.bun_plug_bottom}>
+            <p>Выберите булку</p>
+          </div>
+        )
+      }
+      <Order 
+        showModal={showModal}
+      />
     </section>
   );
 };

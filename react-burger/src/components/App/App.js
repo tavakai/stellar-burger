@@ -8,10 +8,13 @@ import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import { SHOW_MODAL, HIDE_MODAL } from '../../services/actions/index';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
   const dispatch = useDispatch();
   const { modal, currentIngredient, order } = useSelector(store => store.ingredients);
+  const { ingredientsInConstructor } = useSelector(store => store.burgerConstructor);
   const [show, setShow] = useState(false);
   const [currentDataInModal, setCurrentDataInModal] = useState(null);
   const [orderDetails, setOrderDetails] = useState(false);
@@ -38,32 +41,12 @@ function App() {
     setOrderDetails(false);
   }
 
-  // const getOnlyIngredients = (burgersData) => {
-  //   return burgersData.filter(el => el.type !== 'bun')
-  // }
-  
-  // useEffect(() => {
-  //   dispatch(getIngredients());
-  //   console.log(ingredients);
-
-  //   api.getIngredients()
-  //     .then(res => {
-  //       return res.data
-  //     })
-  //     .then(res => {
-  //       // setData(res);
-  //       setOnlyIngredients(getOnlyIngredients(res))
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     })
-  // }, [])
-
   return (
     <div className={style.App}>
       <AppHeader />
       <main className={style.main}>
-        <BurgerIngredients />
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients />
         <BurgerConstructor
           showModal={showModal} />
         {
@@ -73,11 +56,12 @@ function App() {
           </Modal>
         }
         {
-          modal && order &&
+          modal && ingredientsInConstructor.length !== 0 &&
           <Modal header >
             <OrderDetails />
           </Modal>
         }
+        </DndProvider>
       </main>
     </div>
   );

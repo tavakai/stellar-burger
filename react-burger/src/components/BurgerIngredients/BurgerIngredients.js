@@ -1,25 +1,37 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients } from '../../services/actions/index';
 import style from "./BurgerIngredients.module.css";
 import style_2 from "./BurgerIngredientsTypesList/BurgerIngredientsTypeList.module.css";
-import BurgerIngredientsTypeList from "./BurgerIngredientsTypesList/BurgerIngredientsTypesList";
 import { SWITCH_TAB } from '../../services/actions/index';
+import BurgerIngredientsCard from "./BurgerIngredientsCard/BurgerIngredientsCard";
 import { useSwitchTab } from "../../hooks/useSwitchTab";
 
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
   const { ingredients } = useSelector(store => store.ingredients);
   const { activeTab } = useSelector(store => store.tabs);
+  const rootRef = useRef(document.querySelector(`.${style.list_wrapper}`));
+  const targetElements = document.querySelectorAll(`.${style_2.section}`);
+  const {currentTab} = useSwitchTab({
+      root: rootRef.current,
+      rootMargin: '-190px 0px 0px 0px',
+      threshold: [1, 0.3, 0.5]
+    }, targetElements)
+
   const _BUN_ = ingredients.filter((el) => el.type === "bun");
   const _MAIN_ = ingredients.filter((el) => el.type === "main");
   const _SAUCE_ = ingredients.filter((el) => el.type === "sauce");
-
-  function tabClick(tab) {
+  
+  function tabClick(event) {
+    window.scrollTo({
+      top: document.getElementById(event).offsetTop,
+      behavior: 'smooth'
+    })
     dispatch({
       type: SWITCH_TAB,
-      tab
+      tab: event
     })
   }
 
@@ -40,41 +52,53 @@ const BurgerIngredients = () => {
       "data": _MAIN_
     }
   ];
-
+  useEffect(() => {
+    dispatch({
+      type: SWITCH_TAB,
+      tab: currentTab
+    })
+  }, [currentTab])
+  
   useEffect(() => {
     dispatch(getIngredients());
   }, [])
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: SWITCH_TAB,
-  //     tab: currentTab
-  //   })
-  // }, [])
-  
   return (
     <section className={style.section}>
       <h1 className={style.title}>Соберите бургер</h1>
       <div className={style.tabsContainer}>
-        <Tab value="Булки" active={activeTab === "Булки"} onClick={() => tabClick("Булки")}>
+        <a href="#Булки" className={style.tabs_title}>
+          <Tab value="Булки" active={activeTab === "Булки"} onClick={() => tabClick("Булки")}>
           Булки
         </Tab>
-        <Tab value="Соусы" active={activeTab === "Соусы"} onClick={() => tabClick( "Соусы")}>
+        </a>
+        <a href="#Соусы" className={style.tabs_title}>
+          <Tab value="Соусы" active={activeTab === "Соусы"} onClick={() => tabClick("Соусы")}>
           Соусы
         </Tab>
-        <Tab value="Начинки" active={activeTab === "Начинки"} onClick={() => tabClick("Начинки")}>
+        </a>
+        <a href="#Начинки" className={style.tabs_title}>
+          <Tab value="Начинки" active={activeTab === "Начинки"} onClick={() => tabClick("Начинки")}>
           Начинки
         </Tab>
+        </a>
       </div>
       <div className={style.list_wrapper} >
       {
       arrayTypesList.map((list) => {
         return (
-        <BurgerIngredientsTypeList
-          key={list.id}
-          data={list.data}
-          title={list.title}
-          />
+          <section
+            id={list.title}
+            key={list.id}
+            className={style_2.section}
+            >
+            <h2 className={`${style_2.title} ${style_2.test}`}>{list.title}</h2>
+            <div className={style_2.list}>
+              {list.data.map((el) => {
+              return <BurgerIngredientsCard key={el._id} ingredient={el} id={el._id}/>;
+              })}
+            </div>
+           </section>
           )
       })
       }
