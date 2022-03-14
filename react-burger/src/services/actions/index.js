@@ -1,64 +1,106 @@
+import generateKey from '../../utils/generateKey';
 import api from '../../utils/api';
 
-export const SHOW_MODAL = 'SHOW_MODAL';
-export const HIDE_MODAL = 'HIDE_MODAL';
+// Модальные окна
+export const showModal = () => ({
+  type: 'SHOW_MODAL'
+})
+export const hideModal = () => ({
+  type: 'HIDE_MODAL'
+})
 
-export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
-export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
-export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
+// Обработка запросов получения всех ингредиентов
+export const getIngredientsRequest = () => ({
+  type: 'GET_INGREDIENTS_REQUEST'
+});
+export const getIngredientsSuccess = (data) => ({
+  type: 'GET_INGREDIENTS_SUCCESS',
+  ingredients: data
+});
+export const getIngredientsFailed = () => ({
+  type: 'GET_INGREDIENTS_FAILED'
+});
 
-export const CURRENT_INGREDIENT = 'CURRENT_INGREDIENT';
+// Текущий кликнутый ингредиент
+export const currentIngredient = (ingredient) => ({
+  type: 'CURRENT_INGREDIENT',
+  currentIngredient: ingredient
+})
 
-export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
-export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
-export const GET_ORDER_FAILED = 'GET_ORDER_FAILED';
+// Обработка запросов создания заказа
+export const getOrderRequest = () => ({
+  type: 'GET_ORDER_REQUEST',
+})
+export const getOrderSuccess = (orderNumber) => ({
+  type: 'GET_ORDER_SUCCESS',
+  orderNumber
+})
+export const getOrderFailed = () => ({
+  type: 'GET_ORDER_FAILED'
+})
 
-export const ADD_INGREDIENT_IN_CONSTRUCTOR = 'ADD_INGREDIENT_IN_CONSTRUCTOR';
-export const DELETE_INGREDIENT_IN_CONSTRUCTOR = 'DELETE_INGREDIENT_IN_CONSTRUCTOR';
-export const MOVE_INGREDIENT_IN_CONSTRUCTOR = 'MOVE_INGREDIENT_IN_CONSTRUCTOR';
-export const ADD_BUN = 'ADD_BUN';
-export const DELETE_BUN = 'DELETE_BUN';
+// Экшены работы с конструктором ингредиентов
+export const addIngredientInConstructor = (constructorItem) => ({
+  type: 'ADD_INGREDIENT_IN_CONSTRUCTOR',
+  constructorItem,
+  key: generateKey()
+})
+export const deleteIngredientFromConstructor = (key) => ({
+  type: 'DELETE_INGREDIENT_IN_CONSTRUCTOR',
+  key
+})
+export const sortIngredientsInConstructor = (sortedArray) => ({
+  type: 'MOVE_INGREDIENT_IN_CONSTRUCTOR',
+  ingredients: sortedArray
+})
+export const addBun = (bunObject) => ({
+  type: 'ADD_BUN',
+  bun: bunObject
+})
+export const deleteBun = () => ({
+  type: 'DELETE_BUN'
+})
+export const clearConstructor = () => ({
+  type: 'CLEAR_CONSTRUCTOR'
+})
 
-export const CHANGE_TOTAL_PRICE = 'CHANGE_TOTAL_PRICE';
-
-export const SWITCH_TAB = 'SWITCH_TAB';
+// Экшен на смену табов
+export const switchTab = (tab) => ({
+  type: 'SWITCH_TAB',
+  tab
+})
 
 export function getIngredients() {
   return function(dispatch) {
-    dispatch({
-      type: GET_INGREDIENTS_REQUEST
-    });
+    dispatch(getIngredientsRequest());
     api.getIngredients().then(res => {
       if (res && res.success) {
-        dispatch({
-          type: GET_INGREDIENTS_SUCCESS,
-          ingredients: res.data
-        })
+        dispatch(getIngredientsSuccess(res.data))
       } else {
-        dispatch({
-          type: GET_INGREDIENTS_FAILED
-        })
+        dispatch(getIngredientsFailed())
       }
+    })
+    .catch(err => {
+      dispatch(getIngredientsFailed())
+      console.log(err)
     })
   }
 }
 
 export function createOrder(ingredients) {
   return function(dispatch) {
-    dispatch({
-      type: GET_ORDER_REQUEST
-    });
+    dispatch(getOrderRequest());
     api.createOrder(ingredients).then(res => {
       if (res && res.success) {
-        dispatch({
-          type: GET_ORDER_SUCCESS,
-          order: res.order.number
-        })
+        dispatch(getOrderSuccess(res.order.number))
+        dispatch(clearConstructor())
       } else {
-        dispatch({
-          type: GET_ORDER_FAILED
-        })
+        dispatch(getOrderFailed())
       }
+    })
+    .catch(err => {
+      dispatch(getOrderFailed())
+      console.log(err)
     })
   }
 }

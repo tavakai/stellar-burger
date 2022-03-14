@@ -21,7 +21,7 @@ const BurgerConstructorItem = ({ingredient, index, handleClose, moveIngredient})
       isDrag: monitor.isDragging()
     })
   })
-  const [{isOver, ingredientType}, itemDrop] = useDrop({
+  const [collectedProps, itemDrop] = useDrop({
     accept: ITEM,
     hover: (item, monitor) => {
       const dragIndex = item.index;
@@ -39,13 +39,9 @@ const BurgerConstructorItem = ({ingredient, index, handleClose, moveIngredient})
       if(dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
-
       moveIngredient(dragIndex, hoverIndex);
       item.index = hoverIndex;
-    },
-    collect: monitor => ({
-      isOver: monitor.isOver()
-    })
+    }
   })
   const opacity = isDrag ? 0 : 1;
   itemDrag(itemDrop(ref));

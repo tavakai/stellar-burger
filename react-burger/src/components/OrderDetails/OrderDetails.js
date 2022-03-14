@@ -3,10 +3,10 @@ import doneIcon from '../../images/icons/done.png';
 import { useSelector } from 'react-redux';
 
 const OrderDetails = () => {
-  const { order } = useSelector(store => store.order);
+  const { orderNumber } = useSelector(store => store.order);
   return (
     <div className={style.wrapper}>
-      <h2 className={style.orderId}>{order}</h2>
+      <h2 className={style.orderId}>{orderNumber}</h2>
       <p className={style.subtitle}>идентификатор заказа</p>
       <img className={style.done_icon} src={doneIcon} alt="done" />
       <p className={style.status_title}>Ваш заказ начали готовить</p>

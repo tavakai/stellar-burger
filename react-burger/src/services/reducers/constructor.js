@@ -1,11 +1,3 @@
-import {
-    ADD_INGREDIENT_IN_CONSTRUCTOR,
-    DELETE_INGREDIENT_IN_CONSTRUCTOR,
-    MOVE_INGREDIENT_IN_CONSTRUCTOR,
-    ADD_BUN,
-    DELETE_BUN
-} from "../actions";
-
 const initialState = {
   buns: null,
   bunsCount: 2, // всегда две булки
@@ -16,7 +8,7 @@ const initialState = {
 
 export const constructorReducer = (state = initialState, action) => {
   switch(action.type) {
-    case ADD_INGREDIENT_IN_CONSTRUCTOR: {
+    case 'ADD_INGREDIENT_IN_CONSTRUCTOR': {
       return {
         ...state,
         ingredientsInConstructor: [
@@ -28,13 +20,13 @@ export const constructorReducer = (state = initialState, action) => {
         ]
       }
     }
-    case DELETE_INGREDIENT_IN_CONSTRUCTOR: {
+    case 'DELETE_INGREDIENT_IN_CONSTRUCTOR': {
       return {
         ...state,
         ingredientsInConstructor: state.ingredientsInConstructor.filter(el => el.key !== action.key)
       }
     }
-    case MOVE_INGREDIENT_IN_CONSTRUCTOR: {
+    case 'MOVE_INGREDIENT_IN_CONSTRUCTOR': {
       return {
         ...state,
         ingredientsInConstructor: [
@@ -42,16 +34,23 @@ export const constructorReducer = (state = initialState, action) => {
         ]
       }
     }
-    case ADD_BUN: {
+    case 'ADD_BUN': {
       return {
         ...state,
         buns: { ...action.bun }
       }
     }
-    case DELETE_BUN: {
+    case 'DELETE_BUN': {
       return {
         ...state,
         buns: null
+      }
+    }
+    case 'CLEAR_CONSTRUCTOR': {
+      return {
+        ...state,
+        buns: null,
+        ingredientsInConstructor: []
       }
     }
     default: {

@@ -1,7 +1,7 @@
 import style from './BurgerIngredientsCard.module.css';
 import { CurrencyIcon, Counter  } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
-import { SHOW_MODAL, CURRENT_INGREDIENT } from '../../../services/actions/index';
+import { showModal, currentIngredient } from '../../../services/actions/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrag } from "react-dnd";
 
@@ -32,13 +32,8 @@ const BurgerIngredientsCard = ({ingredient, id}) => {
   }
 
   function handleClickOnCard() {
-    dispatch({
-      type: CURRENT_INGREDIENT,
-      currentIngredient: ingredient
-    })
-    dispatch({
-      type: SHOW_MODAL
-    })
+    dispatch(currentIngredient(ingredient))
+    dispatch(showModal())
   }
   
   return (

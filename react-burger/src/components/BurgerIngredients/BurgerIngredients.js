@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients } from '../../services/actions/index';
 import style from "./BurgerIngredients.module.css";
 import style_2 from "./BurgerIngredientsTypesList/BurgerIngredientsTypeList.module.css";
-import { SWITCH_TAB } from '../../services/actions/index';
+import { switchTab } from '../../services/actions/index';
 import BurgerIngredientsCard from "./BurgerIngredientsCard/BurgerIngredientsCard";
 import { useSwitchTab } from "../../hooks/useSwitchTab";
 
@@ -29,10 +29,7 @@ const BurgerIngredients = () => {
       top: document.getElementById(event).offsetTop,
       behavior: 'smooth'
     })
-    dispatch({
-      type: SWITCH_TAB,
-      tab: event
-    })
+    dispatch(switchTab(event))
   }
 
   const arrayTypesList = [
@@ -53,10 +50,7 @@ const BurgerIngredients = () => {
     }
   ];
   useEffect(() => {
-    dispatch({
-      type: SWITCH_TAB,
-      tab: currentTab
-    })
+    dispatch(switchTab(currentTab))
   }, [currentTab])
   
   useEffect(() => {

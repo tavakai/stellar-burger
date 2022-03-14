@@ -1,36 +1,29 @@
-import {
-  ConstructorElement, Button, CurrencyIcon, DragIcon
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from 'react-redux';
 import style from "./BurgerConstructor.module.css";
-import PropTypes from 'prop-types';
 import BurgerConstructorItem from "./BurgerConstructorItem/BurgerConstructorItem";
 import { useDrop } from 'react-dnd';
 import {
-  ADD_INGREDIENT_IN_CONSTRUCTOR,
-  DELETE_INGREDIENT_IN_CONSTRUCTOR,
-  MOVE_INGREDIENT_IN_CONSTRUCTOR,
-  ADD_BUN,
-  DELETE_BUN
+  addIngredientInConstructor,
+  deleteIngredientFromConstructor,
+  sortIngredientsInConstructor,
+  addBun,
+  deleteBun
 } from "../../services/actions";
-import generateKey from "../../utils/generateKey";
 import {BUN, SAUCE, MAIN} from "../../services/types/ingredientTypes";
-import { useRef } from "react";
 import Order from "./Order/Order";
 
-const BurgerConstructor = ({ showModal }) => {
+const BurgerConstructor = () => {
   const dispatch = useDispatch();
-  const ref = useRef(null)
   const { ingredients } = useSelector(store => store.ingredients);
   const { ingredientsInConstructor, buns } = useSelector(store => store.burgerConstructor);
   
-  const [{isOver, ingredientType}, constructorDrag] = useDrop({
+  const [{ingredientType}, constructorDrag] = useDrop({
     accept: [BUN, SAUCE, MAIN],
     drop(item) {
       onDropHandler(item.id);
     },
     collect: monitor => ({
-      isOver: monitor.isOver(),
       ingredientType: monitor.getItemType()
     })
   })
@@ -38,29 +31,17 @@ const BurgerConstructor = ({ showModal }) => {
   const onDropHandler = (ingredientId) => {
     const constructorItem = ingredients.find(el => el._id === ingredientId);
     if(ingredientType === BUN) {
-      dispatch({
-        type: ADD_BUN,
-        bun: constructorItem
-      })
+      dispatch(addBun(constructorItem))
     } else {
-      dispatch({
-      type: ADD_INGREDIENT_IN_CONSTRUCTOR,
-      constructorItem,
-      key: generateKey()
-    });
+      dispatch(addIngredientInConstructor(constructorItem));
     }
   }
 
   const deleteIngredient = (key) => {
     if(key !== undefined) {
-       dispatch({
-      type: DELETE_INGREDIENT_IN_CONSTRUCTOR,
-      key
-    })
+       dispatch(deleteIngredientFromConstructor(key))
     } else {
-    dispatch({
-      type: DELETE_BUN
-    })
+    dispatch(deleteBun())
     }
   }
 
@@ -70,10 +51,7 @@ const BurgerConstructor = ({ showModal }) => {
     sortedIngredientsArr.splice(dragIndex, 1);
     sortedIngredientsArr.splice(hoverIndex, 0, dragIndexItem);
 
-    dispatch({
-      type: MOVE_INGREDIENT_IN_CONSTRUCTOR,
-      ingredients: sortedIngredientsArr
-    })
+    dispatch(sortIngredientsInConstructor(sortedIngredientsArr))
   }
 
   return (
@@ -133,15 +111,9 @@ const BurgerConstructor = ({ showModal }) => {
           </div>
         )
       }
-      <Order 
-        showModal={showModal}
-      />
+      <Order />
     </section>
   );
 };
-
-BurgerConstructor.propTypes = {
-  showModal: PropTypes.func
-}
 
 export default BurgerConstructor;
