@@ -2,6 +2,14 @@ import { combineReducers } from 'redux';
 import { tabsReducer } from './tabs';
 import { constructorReducer } from './constructor';
 import { orderReducer } from './order';
+import {
+  GET_INGREDIENTS_REQUEST,
+  GET_INGREDIENTS_SUCCESS,
+  GET_INGREDIENTS_FAILED,
+  CURRENT_INGREDIENT,
+  SHOW_MODAL,
+  HIDE_MODAL
+} from '../actions/actionTypes';
 
 const initialState = {
   ingredients: [],
@@ -16,39 +24,39 @@ const initialState = {
 
 export const ingredientReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'GET_INGREDIENTS_REQUEST': {
+    case GET_INGREDIENTS_REQUEST: {
       return {
         ...state,
         ingredientsRequest: true
       };
     }
-    case 'GET_INGREDIENTS_SUCCESS': {
+    case GET_INGREDIENTS_SUCCESS: {
       return {
         ...state,
         ingredientsRequest: false,
         ingredients: action.ingredients
       };
     }
-    case 'GET_INGREDIENTS_FAILED': {
+    case GET_INGREDIENTS_FAILED: {
       return {
         ...state,
         ingredientsRequest: false,
         ingredientsFailed: true
       };
     }
-    case 'CURRENT_INGREDIENT': {
+    case CURRENT_INGREDIENT: {
       return {
         ...state,
         currentIngredient: action.currentIngredient
       }
     }
-    case 'SHOW_MODAL': {
+    case SHOW_MODAL: {
       return {
         ...state,
         modal: true
       };
     }
-    case 'HIDE_MODAL': {
+    case HIDE_MODAL: {
       return {
         ...state,
         modal: false,
