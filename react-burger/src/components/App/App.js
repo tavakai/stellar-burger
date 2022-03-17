@@ -1,76 +1,49 @@
-import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import AppHeader from '../AppHeader/AppHeader';
 import style from './App.module.css';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
-import api from '../../utils/api';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import OrderDetails from '../OrderDetails/OrderDetails';
+import { hideModal } from '../../services/actions/index';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import Preloader from '../Preloader/Preloader';
 
 function App() {
-  const [data, setData] = useState([]);
-  const [show, setShow] = useState(false);
-  const [currentDataInModal, setCurrentDataInModal] = useState(null);
-  const [orderDetails, setOrderDetails] = useState(false);
-  const [onlyIngredients, setOnlyIngredients] = useState([]);
+  const dispatch = useDispatch();
+  const { modal, currentIngredient } = useSelector(store => store.ingredients);
+  const { orderRequest } = useSelector(store => store.order);
 
-  const showModal = (currentInfo) => {
-    setShow(true);
-    if(currentInfo === "order") {
-      setOrderDetails(true);
-    } else {
-      setCurrentDataInModal(currentInfo);
-    }
+  const handleHideModal = () => {
+    dispatch(hideModal())
   }
-
-  const hideModal = (boolean) => {
-    !boolean && setShow(false);
-    setCurrentDataInModal(null);
-    setOrderDetails(false);
-  }
-
-  const getOnlyIngredients = (burgersData) => {
-    return burgersData.filter(el => el.type !== 'bun')
-  }
-  
-  useEffect(() => {
-    api.getIngredients()
-      .then(res => {
-        return res.data
-      })
-      .then(res => {
-        setData(res);
-        setOnlyIngredients(getOnlyIngredients(res))
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  }, [])
 
   return (
     <div className={style.App}>
       <AppHeader />
       <main className={style.main}>
-        <BurgerIngredients data={data}
-          showModal={showModal}
-          hideModal={hideModal}
-        />
-        <BurgerConstructor
-          data={onlyIngredients}
-          showModal={showModal} />
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients />
+        <BurgerConstructor />
         {
-          show && currentDataInModal &&
-          <Modal show={show} hideModal={hideModal} title="Детали ингредиента" >
-            <IngredientDetails data={currentDataInModal} />
+          modal && currentIngredient &&
+          <Modal show={modal} hideModal={handleHideModal} title="Детали ингредиента" >
+            <IngredientDetails />
           </Modal>
         }
         {
-          show && orderDetails &&
-          <Modal show={show} hideModal={hideModal} header >
+          orderRequest ? (
+            <Preloader />
+          ) : (
+            modal && !currentIngredient &&
+          <Modal show={modal} hideModal={handleHideModal} header >
             <OrderDetails />
           </Modal>
+          )
         }
+        </DndProvider>
       </main>
     </div>
   );

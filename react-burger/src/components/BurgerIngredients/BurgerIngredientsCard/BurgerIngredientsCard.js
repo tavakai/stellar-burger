@@ -1,26 +1,62 @@
 import style from './BurgerIngredientsCard.module.css';
 import { CurrencyIcon, Counter  } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
+import { showModal, currentIngredient } from '../../../services/actions/index';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrag } from "react-dnd";
 
-const BurgerIngredientsCard = ({item, showModal}) => {
+const BurgerIngredientsCard = ({ingredient, id}) => {
+  const dispatch = useDispatch();
+  const { ingredientsInConstructor, bunsCount, buns } = useSelector(store => store.burgerConstructor);
+  const [{isDrag}, dragRef] = useDrag({
+    type: ingredient.type,
+    item: {id},
+    collect: monitor => ({
+      isDrag: monitor.isDragging()
+    })
+  })
+  
+  function getIngredientCount() {
+    let counter = 0;
+    ingredientsInConstructor.forEach(item => { 
+      if (id === item._id) {
+        counter += 1;
+      }
+    });
+
+    if(buns !== null && ingredient._id === buns._id) {
+      return bunsCount;
+    } else {
+      return counter;
+    }
+  }
+
+  function handleClickOnCard() {
+    dispatch(currentIngredient(ingredient))
+    dispatch(showModal())
+  }
+  
   return (
-    <div className={style.wrapper} onClick={() => showModal(item)} >
-      <Counter count={1} size="default" />
-      <img className={style.img}  src={item.image} alt={item.name} />
+      <div ref={dragRef} className={style.wrapper} onClick={() => handleClickOnCard()} >
+      {
+        getIngredientCount() !== 0 ? (
+          <Counter count={getIngredientCount()} size="default" />
+        ) : null
+      }
+      <img className={style.img}  src={ingredient.image} alt={ingredient.name} />
       <div className={style.price_wrapper} >
-        <span className={style.price_value} >{item.price}</span>
+        <span className={style.price_value} >{ingredient.price}</span>
         <CurrencyIcon type="primary" />
       </div>
       <p className={style.name} >
-        {item.name}
+        {ingredient.name}
       </p>
     </div>
   )
 }
 
 BurgerIngredientsCard.propTypes = {
-  item: PropTypes.object.isRequired,
-  showModal: PropTypes.func
+  ingredient: PropTypes.object.isRequired
 }
 
 export default BurgerIngredientsCard;

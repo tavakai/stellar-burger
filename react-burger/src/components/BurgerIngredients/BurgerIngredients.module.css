@@ -17,6 +17,9 @@
   display: flex;
   composes: mb-10 from global;
 }
+.tabs_title {
+  text-decoration: none;
+}
 .list_wrapper {
   height: 60vh;
   overflow-y: overlay;
