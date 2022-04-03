@@ -1,8 +1,10 @@
 import style from './IngredientDetails.module.css';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 const IngredientDetails = () => {
   const { currentIngredient } = useSelector(store => store.ingredients);
+
   return (
     <div className={style.wrapper}>
       <img className={style.image} src={currentIngredient.image_large} alt={currentIngredient.name} />

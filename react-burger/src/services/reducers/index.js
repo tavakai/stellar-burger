@@ -2,6 +2,8 @@ import { combineReducers } from 'redux';
 import { tabsReducer } from './tabs';
 import { constructorReducer } from './constructor';
 import { orderReducer } from './order';
+import { registerReducer } from './register';
+import { authReducer } from './auth';
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
@@ -73,5 +75,7 @@ export const rootReducer = combineReducers({
   ingredients: ingredientReducer,
   tabs: tabsReducer,
   burgerConstructor: constructorReducer,
-  order: orderReducer
+  order: orderReducer,
+  register: registerReducer,
+  auth: authReducer
 });

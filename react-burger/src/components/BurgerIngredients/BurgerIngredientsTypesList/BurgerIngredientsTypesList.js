@@ -4,7 +4,7 @@ import styleParentElement from "../BurgerIngredients.module.css";
 import PropTypes from "prop-types";
 import { useSwitchTab } from "../../../hooks/useSwitchTab";
 import { useEffect, useRef, useMemo } from "react";
-import { SWITCH_TAB } from "../../../services/actions";
+import { SWITCH_TAB } from "../../../services/actions/actionCreators/tabs";
 import { useDispatch } from "react-redux";
 
 import { useInView } from 'react-intersection-observer'
