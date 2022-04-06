@@ -18,8 +18,6 @@ const initialState = {
   ingredientsRequest: false,
   ingredientsFailed: false,
 
-  order: false,
-
   currentIngredient: null,
   modal: false
 }
@@ -62,7 +60,7 @@ export const ingredientReducer = (state = initialState, action) => {
       return {
         ...state,
         modal: false,
-        currentIngredient: null
+        // currentIngredient: null
       };
     }
     default: {

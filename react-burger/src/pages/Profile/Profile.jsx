@@ -11,8 +11,7 @@ import { getCurrentUser, logOut, updateCurrentUser } from '../../services/action
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { authRequest, currentUser, updateUserRequest, updateUserSuccess } = useSelector(store => store.auth);
+  const { currentUser, updateUserRequest } = useSelector(store => store.auth);
   const [isEdit, setIsEdit] = useState(false);
   const { values, handleChange, setValues } = useForm({
     name: '',
@@ -28,7 +27,6 @@ const Profile = () => {
   }
   const handleSignOut = () => {
     dispatch(logOut());
-    navigate('/login');
   }
   useEffect(() => {
     dispatch(getCurrentUser(getCookie('accessToken')))
@@ -49,15 +47,15 @@ const Profile = () => {
     <section className={styles.section}>
       <div>
         <nav className={styles.nav}>
-          <NavLink to="/profile" className={styles.items}>
+          <NavLink to="/profile" className={({isActive}) => !isActive ? styles.items : styles.active}>
             Профиль
           </NavLink>
-          <NavLink to="/profile/orders" className={styles.items}>
+          <NavLink to="/profile/orders" className={({isActive}) => !isActive ? styles.items : styles.active}>
             История заказов
           </NavLink>
-          <button to="/login" className={styles.signOut_btn} onClick={handleSignOut}>
+          <NavLink to="/login" className={styles.signOut_btn} onClick={handleSignOut}>
             Выход
-          </button>
+          </NavLink>
         </nav>
         <p className={styles.description}>
           В этом разделе вы можете изменить свои персональные данные

@@ -7,6 +7,7 @@ import {
 const initialState = {
   orderRequest: false,
   orderFailed: false,
+  orderSuccess: false,
 
   orderNumber: null
 }
@@ -23,6 +24,7 @@ export const orderReducer = (state = initialState, action) => {
       return {
         ...state,
         orderRequest: false,
+        orderSuccess: true,
         orderNumber: action.orderNumber
       };
     }
@@ -30,6 +32,7 @@ export const orderReducer = (state = initialState, action) => {
       return {
         ...state,
         orderRequest: false,
+        orderSucess: false,
         orderFailed: true
       };
     }

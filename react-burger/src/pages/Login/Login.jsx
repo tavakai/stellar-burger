@@ -1,7 +1,7 @@
-import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from '../form.module.css';
 import { useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import { signIn } from '../../services/actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,7 +20,7 @@ const Login = () => {
   const handleChangeInput = (e) => {
     handleChange(e);
   };
-  const formSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(signIn(values));
   }
@@ -33,7 +33,7 @@ const Login = () => {
   return (
     <section className={styles.section}>
       <div className={styles.form_wrapper}>
-        <form action="#" className={styles.form} onSubmit={formSubmit}>
+        <form action="#" className={styles.form} onSubmit={handleSubmit}>
           <fieldset className={styles.fieldset}>
             <legend className={styles.form_title}>Вход</legend>
             <Input
@@ -43,7 +43,7 @@ const Login = () => {
               onChange={handleChangeInput}
               name='email'
             />
-            <Input
+            <PasswordInput
               type={'password'}
               placeholder={'Пароль'}
               value={values.password}

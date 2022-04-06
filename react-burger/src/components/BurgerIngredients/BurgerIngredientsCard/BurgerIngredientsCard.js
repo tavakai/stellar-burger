@@ -37,7 +37,6 @@ const BurgerIngredientsCard = ({ ingredient, id }) => {
   function handleClickOnCard() {
     dispatch(currentIngredient(ingredient))
     dispatch(showModal())
-    // console.log(location, 'card')
   }
 
   return (

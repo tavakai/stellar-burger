@@ -1,5 +1,5 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients } from '../../services/actions/ingredients';
 import style from "./BurgerIngredients.module.css";
@@ -20,9 +20,9 @@ const BurgerIngredients = () => {
       threshold: [1, 0.3, 0.5]
     }, targetElements)
 
-  const _BUN_ = ingredients.filter((el) => el.type === "bun");
-  const _MAIN_ = ingredients.filter((el) => el.type === "main");
-  const _SAUCE_ = ingredients.filter((el) => el.type === "sauce");
+  const _BUN_ = useMemo(() => ingredients.filter((el) => el.type === "bun"), [ingredients]);
+  const _MAIN_ = useMemo(() => ingredients.filter((el) => el.type === "main"), [ingredients]);
+  const _SAUCE_ = useMemo(() => ingredients.filter((el) => el.type === "sauce"), [ingredients]);
   
   function tabClick(event) {
     window.scrollTo({
@@ -31,7 +31,7 @@ const BurgerIngredients = () => {
     })
     dispatch(switchTab(event))
   }
-
+  
   const arrayTypesList = [
     {
       "id": 1,
@@ -54,8 +54,10 @@ const BurgerIngredients = () => {
   }, [currentTab])
   
   useEffect(() => {
-    dispatch(getIngredients());
-  }, [])
+    if(ingredients.length === 0) {
+      dispatch(getIngredients());
+    }
+  }, [ingredients])
 
   return (
     <section className={style.section}>

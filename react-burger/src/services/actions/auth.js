@@ -1,4 +1,5 @@
 import api from "../../utils/api";
+import { setCookie } from "../../utils/setCookie";
 import {
   updateUser,
   getAuthSuccess,
@@ -12,28 +13,6 @@ import {
 } from './actionCreators/auth';
 import { getCookie } from '../../utils/getCookie';
 
-function setCookie(name, value, props) {
-  props = props || {};
-  let exp = props.expires;
-  if (typeof exp == 'number' && exp) {
-    const d = new Date();
-    d.setTime(d.getTime() + exp * 1000);
-    exp = props.expires = d;
-  }
-  if (exp && exp.toUTCString) {
-    props.expires = exp.toUTCString();
-  }
-  value = encodeURIComponent(value);
-  let updatedCookie = name + '=' + value;
-  for (const propName in props) {
-    updatedCookie += '; ' + propName;
-    const propValue = props[propName];
-    if (propValue !== true) {
-      updatedCookie += '=' + propValue;
-    }
-  }
-  document.cookie = updatedCookie;
-}
 // Авторизация
 export function signIn(form) {
   return function (dispatch) {
@@ -64,13 +43,11 @@ export function getCurrentUser(token) {
         console.log('1 getUser')
         if (res && res.success) {
           dispatch(getUser(res.user));
-          console.log('1 getUser success')
         }
       })
       .catch(err => {
         api.refreshToken(getCookie('refreshToken'))
           .then(res => {
-            console.log('refreshToken')
             if (res && res.success) {
               const accessToken = res.accessToken.split('Bearer ')[1];
               const refreshToken = res.refreshToken;
@@ -78,10 +55,8 @@ export function getCurrentUser(token) {
               setCookie('refreshToken', refreshToken);
               api.getUser(accessToken)
                 .then(res => {
-                  console.log('2 getUser')
                   if (res && res.success) {
                     dispatch(getUser(res.user));
-                    console.log('2 getUser success')
                   }
                 })
             }
@@ -112,6 +87,7 @@ export function logOut() {
     api.logOut(getCookie('refreshToken'))
       .then(res => {
         if (res && res.success) {
+          document.cookie = 'accessToken=; path=/; expires=-1';
           document.cookie = 'refreshToken=; path=/; expires=-1';
           dispatch(signOut());
         }

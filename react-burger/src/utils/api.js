@@ -14,9 +14,7 @@ class Api {
         password: data.password
       })
     })
-    .then((res) => {
-      return this._getResponseData(res);
-    });
+    .then(this._getResponseData);
   };
   // Авторизация
   authorize = (user) => {
@@ -29,9 +27,7 @@ class Api {
         password: user.password
       })
     })
-    .then((res) => {
-      return this._getResponseData(res);
-    });
+    .then(this._getResponseData);
   };
   // Восстановление пароля
   forgotPassword = (email) => {
@@ -43,9 +39,7 @@ class Api {
         email
       })
     })
-    .then((res) => {
-      return this._getResponseData(res);
-    });
+    .then(this._getResponseData);
   }
   // Обновление токена
   refreshToken = (refreshToken) => {
@@ -57,9 +51,7 @@ class Api {
         token: refreshToken
       })
     })
-    .then((res) => {
-      return this._getResponseData(res);
-    });
+    .then(this._getResponseData);
   }
   // Сброс пароля
   resetPassword = ({password, token}) => {
@@ -72,9 +64,7 @@ class Api {
         token
       })
     })
-    .then((res) => {
-      return this._getResponseData(res);
-    });
+    .then(this._getResponseData);
   }
   // Получение пользователя
   getUser(token) {
@@ -86,9 +76,7 @@ class Api {
       },
       credentials: 'same-origin'
     })
-    .then((res) => {
-      return this._getResponseData(res);
-    });
+    .then(this._getResponseData);
   };
   // Изменение пользователя
   updateUser(token, user) {
@@ -104,18 +92,14 @@ class Api {
         email: user.email
       })
     })
-    .then((res) => {
-      return this._getResponseData(res);
-    });
+    .then(this._getResponseData);
   };
   // Получим все ингредиенты
   getIngredients() {
     return fetch(`${this._baseUrl}/ingredients`, {
       headers: this.headers,
     })
-    .then((res) => {
-      return this._getResponseData(res);
-    });
+    .then(this._getResponseData);
   }
   // Создание заказа. Принимаем массив из ингредиентов
   createOrder(details) {
@@ -125,9 +109,7 @@ class Api {
       body: JSON.stringify({
         ingredients: details,
       }),
-    }).then((res) => {
-      return this._getResponseData(res);
-    });
+    }).then(this._getResponseData);
   }
   //  Выход из системы
   logOut = (refreshToken) => {
@@ -139,9 +121,7 @@ class Api {
         token: refreshToken
       })
     })
-    .then((res) => {
-      return this._getResponseData(res);
-    });
+    .then(this._getResponseData);
   }
   // Проверка ответа запроса
   _getResponseData(response) {

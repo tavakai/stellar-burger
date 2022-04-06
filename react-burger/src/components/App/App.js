@@ -6,11 +6,10 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import { hideModal } from '../../services/actions/actionCreators/modals';
 import Preloader from '../Preloader/Preloader';
-import { Routes, Route, useLocation, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate, useNavigate, useParams } from 'react-router-dom';
 import Login from '../../pages/Login/Login';
 import Register from '../../pages/Register/Register';
 import Layout from '../Layout/Layout';
-import IngredientPage from '../../pages/IngredientPage/IngredientPage';
 import ForgotPassword from '../../pages/Forgot-password/Forgot-password';
 import ResetPassword from '../../pages/Reset-password/Reset-password';
 import Profile from '../../pages/Profile/Profile';
@@ -18,36 +17,39 @@ import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 import { useEffect } from 'react';
 import { getCookie } from '../../utils/getCookie';
 import { getCurrentUser } from '../../services/actions/auth';
+import { getIngredients } from '../../services/actions/ingredients';
 
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { modal, currentIngredient } = useSelector(store => store.ingredients);
+  const { orderNumber, orderSuccess } = useSelector(store => store.order);
   const { orderRequest } = useSelector(store => store.order);
   const { loggedIn } = useSelector(store => store.auth);
   const location = useLocation();
-  const background = location.state && location.state.background;
+  const fromPage = location.state?.from?.pathname || '/';
+  const state = location.state && location.state.background;
 
   const handleHideModal = () => {
     dispatch(hideModal())
-    navigate(-1);
+    !orderNumber && !orderSuccess && navigate(-1);
   }
 
   useEffect(() => {
-    if (getCookie('refreshToken')) {
-      dispatch(getCurrentUser(getCookie('refreshToken')));
+    dispatch(getIngredients());
+    if (getCookie('accessToken')) {
+      dispatch(getCurrentUser(getCookie('accessToken')));
     }
-  }, [])
-
+  }, []); 
+  
   return (
     <div className={style.App}>
       <AppHeader />
       <main className={style.main}>
-        <Routes location={background || location}>
+        <Routes location={state || location}>
           <Route path='/' element={<Layout />} />
           <Route path='/login' element={
             loggedIn ? (
-              <Navigate to="/" />
+              <Navigate to={fromPage} />
             ) : (<Login />)
           } />
           <Route path='/register' element={
@@ -65,7 +67,7 @@ function App() {
               <Navigate to="/" />
             ) : (<ResetPassword />)
           } />
-          <Route path='/ingredients/:id' element={<IngredientPage />} />
+          <Route path='/ingredients/:id' element={<IngredientDetails />} />
           <Route path='/profile/*' element={
             <ProtectedRoute>
               <Profile />
@@ -73,10 +75,10 @@ function App() {
           } />
         </Routes>
         {
-          background && modal && currentIngredient &&
+          state &&
           <Routes>
             <Route path='/ingredients/:id' element={
-              <Modal show={modal} hideModal={handleHideModal} header >
+              <Modal hideModal={handleHideModal} title={"Детали ингредиента"} >
                 <IngredientDetails />
               </Modal>
             } />
@@ -86,8 +88,8 @@ function App() {
           orderRequest ? (
             <Preloader />
           ) : (
-            modal && !currentIngredient &&
-            <Modal show={modal} hideModal={handleHideModal} header >
+            orderNumber && orderSuccess &&
+            <Modal hideModal={handleHideModal} header >
               <OrderDetails />
             </Modal>
           )

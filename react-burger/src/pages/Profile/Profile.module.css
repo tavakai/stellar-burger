@@ -46,3 +46,7 @@
   border: none;
   cursor: pointer;
 }
+.active {
+  composes: items;
+  color: #ffffff;
+}
