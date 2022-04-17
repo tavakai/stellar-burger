@@ -13,3 +13,8 @@
 .price_value {
   composes: text text_type_digits-medium mr-2 from global;
 }
+.link {
+  text-decoration: none;
+  color: #fff;
+  display: contents;
+}

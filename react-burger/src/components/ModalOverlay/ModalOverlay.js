@@ -1,24 +1,23 @@
 import style from './ModalOverlay.module.css';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
-import { hideModal } from '../../services/actions';
+import { useSelector } from 'react-redux';
 
-const ModalOverlay = ({children}) => {
-  const dispatch = useDispatch();
+const ModalOverlay = ({children, closeModal}) => {
   const { modal } = useSelector(store => store.ingredients);
 
   return (
     <section
       className={`${style.overlay} ${modal ? style.overlay_show : ''}`}
-      onClick={() => dispatch(hideModal())}
+      onClick={closeModal}
       >
       {children}
     </section>
   )
-}
+} 
 
 ModalOverlay.propTypes = {
-  children: PropTypes.element
+  children: PropTypes.element,
+  closeModal: PropTypes.func
 }
 
 export default ModalOverlay;

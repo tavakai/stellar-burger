@@ -9,7 +9,7 @@ import {
   sortIngredientsInConstructor,
   addBun,
   deleteBun
-} from "../../services/actions";
+} from "../../services/actions/actionCreators/ingredients";
 import {BUN, SAUCE, MAIN} from "../../services/types/ingredientTypes";
 import Order from "./Order/Order";
 

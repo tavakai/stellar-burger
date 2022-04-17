@@ -2,6 +2,8 @@ import { combineReducers } from 'redux';
 import { tabsReducer } from './tabs';
 import { constructorReducer } from './constructor';
 import { orderReducer } from './order';
+import { registerReducer } from './register';
+import { authReducer } from './auth';
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
@@ -15,8 +17,6 @@ const initialState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,
-
-  order: false,
 
   currentIngredient: null,
   modal: false
@@ -60,7 +60,7 @@ export const ingredientReducer = (state = initialState, action) => {
       return {
         ...state,
         modal: false,
-        currentIngredient: null
+        // currentIngredient: null
       };
     }
     default: {
@@ -73,5 +73,7 @@ export const rootReducer = combineReducers({
   ingredients: ingredientReducer,
   tabs: tabsReducer,
   burgerConstructor: constructorReducer,
-  order: orderReducer
+  order: orderReducer,
+  register: registerReducer,
+  auth: authReducer
 });
