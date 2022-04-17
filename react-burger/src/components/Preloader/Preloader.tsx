@@ -1,6 +1,7 @@
+import { FC } from 'react';
 import style from './Preloader.module.css';
 
-const Preloader = () => {
+const Preloader: FC = () => {
   return (
     <div className={style.preloader} >
     <div className={style.preloader__icon} />

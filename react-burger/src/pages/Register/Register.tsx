@@ -3,21 +3,22 @@ import styles from '../form.module.css';
 import { Link } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import { signUp } from '../../services/actions/register'; 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import Preloader from '../../components/Preloader/Preloader';
+import { ChangeEvent, FC, FormEvent } from 'react';
 
-const Register = () => {
+const Register: FC = () => {
   const dispatch = useDispatch();
-  const { authRequest } = useSelector(store => store.auth);
+  const { authRequest } = useSelector((store: RootStateOrAny) => store.auth);
   const { values, handleChange } = useForm({
     name: '',
     email: '',
     password: ''
   });
-  const handleChangeInput = (e) => {
+  const handleChangeInput = (e: ChangeEvent) => {
     handleChange(e);
   };
-  const formSubmit = (e) => {
+  const formSubmit = (e: FormEvent) => {
     e.preventDefault();
     dispatch(signUp(values));
   }
@@ -48,7 +49,6 @@ const Register = () => {
               onChange={handleChangeInput}
               icon={"ShowIcon"}
               name={'password'}
-              autocomplete={"off"}
             />
           </fieldset>
           <Button type="primary" size="medium">

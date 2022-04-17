@@ -3,14 +3,15 @@ import styles from '../form.module.css';
 import { useForm } from '../../hooks/useForm';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../utils/api';
+import { FC, FormEvent } from 'react';
 
-const ResetPassword = () => {
+const ResetPassword: FC = () => {
   const navigate = useNavigate();
   const { values, handleChange } = useForm({
     password: '',
     token: ''
   });
-  const formSubmit = (e) => {
+  const formSubmit = (e: FormEvent) => {
     e.preventDefault();
     api.resetPassword(values)
       .then(res => {
@@ -30,7 +31,7 @@ const ResetPassword = () => {
               placeholder={'Введите новый пароль'}
               value={values.password}
               onChange={handleChange}
-              incon={'ShowIcon'}
+              icon={'ShowIcon'}
               name={'password'}
             />
             <Input

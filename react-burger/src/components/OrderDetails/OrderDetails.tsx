@@ -1,9 +1,10 @@
 import style from './OrderDetails.module.css';
 import doneIcon from '../../images/icons/done.png';
-import { useSelector } from 'react-redux';
+import { useSelector, RootStateOrAny } from 'react-redux';
+import { FC } from 'react';
 
-const OrderDetails = () => {
-  const { orderNumber } = useSelector(store => store.order);
+const OrderDetails: FC = () => {
+  const { orderNumber } = useSelector((store: RootStateOrAny) => store.order);
   return (
     <div className={style.wrapper}>
       <h2 className={style.orderId}>{orderNumber}</h2>

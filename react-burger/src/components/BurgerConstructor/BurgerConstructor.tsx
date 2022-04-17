@@ -1,5 +1,6 @@
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from 'react-redux';
+import { FC } from "react";
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import style from "./BurgerConstructor.module.css";
 import BurgerConstructorItem from "./BurgerConstructorItem/BurgerConstructorItem";
 import { useDrop } from 'react-dnd';
@@ -12,15 +13,16 @@ import {
 } from "../../services/actions/actionCreators/ingredients";
 import {BUN, SAUCE, MAIN} from "../../services/types/ingredientTypes";
 import Order from "./Order/Order";
+import { IIngredient } from "../../utils/types";
 
-const BurgerConstructor = () => {
+const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
-  const { ingredients } = useSelector(store => store.ingredients);
-  const { ingredientsInConstructor, buns } = useSelector(store => store.burgerConstructor);
+  const { ingredients } = useSelector((store: RootStateOrAny) => store.ingredients); 
+  const { ingredientsInConstructor, buns } = useSelector((store: RootStateOrAny) => store.burgerConstructor); 
   
   const [{ingredientType}, constructorDrag] = useDrop({
     accept: [BUN, SAUCE, MAIN],
-    drop(item) {
+    drop(item: IIngredient) {
       onDropHandler(item.id);
     },
     collect: monitor => ({
@@ -28,8 +30,8 @@ const BurgerConstructor = () => {
     })
   })
 
-  const onDropHandler = (ingredientId) => {
-    const constructorItem = ingredients.find(el => el._id === ingredientId);
+  const onDropHandler = (ingredientId: string) => {
+    const constructorItem = ingredients.find((el: IIngredient) => el._id === ingredientId);
     if(ingredientType === BUN) {
       dispatch(addBun(constructorItem))
     } else {
@@ -37,7 +39,7 @@ const BurgerConstructor = () => {
     }
   }
 
-  const deleteIngredient = (key) => {
+  const deleteIngredient = (key: string) => {
     if(key !== undefined) {
        dispatch(deleteIngredientFromConstructor(key))
     } else {
@@ -45,7 +47,7 @@ const BurgerConstructor = () => {
     }
   }
 
-  const moveIngredient = (dragIndex, hoverIndex) => {
+  const moveIngredient = (dragIndex: number, hoverIndex: number) => {
     const sortedIngredientsArr = [...ingredientsInConstructor];
     const dragIndexItem = sortedIngredientsArr[dragIndex];
     sortedIngredientsArr.splice(dragIndex, 1);
@@ -65,7 +67,7 @@ const BurgerConstructor = () => {
         text={buns.name + ' (верх)'}
         price={buns.price}
         thumbnail={buns.image}
-        handleClose={() => deleteIngredient()}
+        handleClose={() => deleteIngredient}
       />
         ) : (
           <div className={style.bun_plug_top}>
@@ -77,12 +79,12 @@ const BurgerConstructor = () => {
         {
           ingredientsInConstructor.length !== 0 ? (
             <ul className={style.list}>
-          {ingredientsInConstructor.map((el, index) => {
+          {ingredientsInConstructor.map((el: IIngredient, index: number) => {
           return (
              <BurgerConstructorItem 
               key={el.key}
               ingredient={el}
-              handleClose={deleteIngredient}
+              handleClose={() => deleteIngredient}
               moveIngredient={moveIngredient}
               index={index}
               />
@@ -103,7 +105,7 @@ const BurgerConstructor = () => {
         text={buns.name + ' (низ)'}
         price={buns.price}
         thumbnail={buns.image}
-        handleClose={() => deleteIngredient()}
+        handleClose={() => deleteIngredient}
       />
         ) : (
           <div className={style.bun_plug_bottom}>

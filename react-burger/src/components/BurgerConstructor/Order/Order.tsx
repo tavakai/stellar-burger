@@ -2,24 +2,25 @@ import {
   Button, CurrencyIcon
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from '../BurgerConstructor.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from "react";
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
+import { useEffect, useState, FC } from "react";
 import { showModal } from "../../../services/actions/actionCreators/modals";
 import { createOrder } from "../../../services/actions/ingredients";
 import { useNavigate } from "react-router-dom";
+import { IIngredient } from "../../../utils/types";
 
-const Order = () => {
+const Order: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [bunPrice, setBunPrice] = useState(0);
-  const { ingredientsInConstructor, buns, bunsCount } = useSelector(store => store.burgerConstructor);
-  const { loggedIn } = useSelector(store => store.auth);
+  const { ingredientsInConstructor, buns, bunsCount } = useSelector((store: RootStateOrAny) => store.burgerConstructor);
+  const { loggedIn } = useSelector((store: RootStateOrAny) => store.auth);
 
   const handleClickOnOrderButton = () => {
     if (!loggedIn) {
       navigate("/login")
     } else {
-      const mainIngredientsArray = ingredientsInConstructor.map(item => {
+      const mainIngredientsArray = ingredientsInConstructor.map((item: IIngredient) => {
         return item._id
       })
       const orderArray = [...mainIngredientsArray, buns._id, buns._id];
@@ -28,7 +29,7 @@ const Order = () => {
     }
   }
 
-  const ingredientsPrice = ingredientsInConstructor.reduce((sum, elem) => {
+  const ingredientsPrice = ingredientsInConstructor.reduce((sum: number, elem: IIngredient) => {
     return elem.price + sum;
   }, 0);
 

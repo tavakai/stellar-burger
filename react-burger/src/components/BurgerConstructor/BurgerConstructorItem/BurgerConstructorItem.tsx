@@ -4,11 +4,11 @@ import {
 import { useDrag, useDrop } from 'react-dnd';
 import style from '../BurgerConstructor.module.css';
 import { ITEM } from "../../../services/types/ingredientTypes";
-import { useRef } from "react";
-import PropTypes from 'prop-types';
+import { useRef, FC } from "react";
+import { IConstructorItem, IDndItem } from "../../../utils/types";
 
-const BurgerConstructorItem = ({ingredient, index, handleClose, moveIngredient}) => {
-  const ref = useRef(null);
+const BurgerConstructorItem: FC<IConstructorItem> = ({ingredient, index, handleClose, moveIngredient}) => {
+  const ref = useRef<HTMLLIElement>(null);
   const [{isDrag}, itemDrag] = useDrag({
     type: ITEM,
     item: () => {
@@ -23,15 +23,15 @@ const BurgerConstructorItem = ({ingredient, index, handleClose, moveIngredient})
   })
   const [collectedProps, itemDrop] = useDrop({
     accept: ITEM,
-    hover: (item, monitor) => {
+    hover: (item: IDndItem, monitor) => {
       const dragIndex = item.index;
       const hoverIndex = index;
 
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const hoverMiddleY = ((hoverBoundingRect?.bottom ?? 0) - (hoverBoundingRect?.top ?? 0)) / 2;
       
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = (clientOffset?.y ?? 0) - (hoverBoundingRect?.top ?? 0);
 
       if(dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
@@ -57,13 +57,6 @@ const BurgerConstructorItem = ({ingredient, index, handleClose, moveIngredient})
     />
   </li>
   )
-}
-
-BurgerConstructorItem.propTypes = {
-  ingredient: PropTypes.object.isRequired,
-  index: PropTypes.number.isRequired,
-  handleClose: PropTypes.func.isRequired,
-  moveIngredient: PropTypes.func.isRequired
 }
 
 export default BurgerConstructorItem;

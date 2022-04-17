@@ -2,16 +2,16 @@ import style from './Modal.module.css';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ReactDOM from "react-dom";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import { useEffect } from "react";
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useEffect, FC } from "react";
+import { useSelector, RootStateOrAny } from 'react-redux';
+import { IModal } from '../../utils/types';
 
-const modalRoot = document.getElementById("modals");
+const modalRoot = document.getElementById("modals") as HTMLElement;
 
-const Modal = ({ hideModal, header, children, title }) => {
-  const { modal } = useSelector(store => store.ingredients);
+const Modal: FC<IModal> = ({ hideModal, header, children, title }) => {
+  const { modal } = useSelector((store: RootStateOrAny) => store.ingredients);
 
-  const handleEsc = (e) => {
+  const handleEsc = (e: KeyboardEvent) => {
     e.code === 'Escape' && hideModal();
   }
   useEffect(() => {
@@ -39,13 +39,6 @@ const Modal = ({ hideModal, header, children, title }) => {
     </>,
     modalRoot
   )
-}
-
-Modal.propTypes = {
-  header: PropTypes.bool,
-  hideModal: PropTypes.func.isRequired,
-  children: PropTypes.element.isRequired,
-  title: PropTypes.string
 }
 
 export default Modal;

@@ -1,32 +1,32 @@
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from '../form.module.css';
-import { useEffect } from 'react';
-import { Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
+import { ChangeEvent, FC, FormEvent, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import { signIn } from '../../services/actions/auth';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import Preloader from '../../components/Preloader/Preloader';
 
-const Login = () => {
+const Login: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  const { loggedIn, authRequest } = useSelector(store => store.auth);
+  const { loggedIn, authRequest } = useSelector((store: RootStateOrAny) => store.auth);
   const { values, handleChange } = useForm({
     email: '',
     password: ''
   });
-  const fromPage = location.state?.from?.pathname || '/';
-  const handleChangeInput = (e) => {
+  const fromPage = location.state as { from?: any }
+  const handleChangeInput = (e: ChangeEvent) => {
     handleChange(e);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     dispatch(signIn(values));
   }
   useEffect(() => {
     if(loggedIn) {
-      navigate(fromPage);
+      navigate(fromPage?.from);
     }
   }, [loggedIn])
 
@@ -44,13 +44,9 @@ const Login = () => {
               name='email'
             />
             <PasswordInput
-              type={'password'}
-              placeholder={'Пароль'}
               value={values.password}
               onChange={handleChangeInput}
-              icon={"ShowIcon"}
               name='password'
-              autocomplete={"off"}
             />
           </fieldset>
           <Button type="primary" size="medium" >

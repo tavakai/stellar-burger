@@ -1,24 +1,24 @@
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './Profile.module.css';
 import stylesForm from '../form.module.css';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import Preloader from '../../components/Preloader/Preloader';
-import { useEffect, useState } from 'react';
+import { FC, FormEvent, useEffect, useState } from 'react';
 import { getCookie } from '../../utils/getCookie';
 import { getCurrentUser, logOut, updateCurrentUser } from '../../services/actions/auth';
 
-const Profile = () => {
+const Profile: FC = () => {
   const dispatch = useDispatch();
-  const { currentUser, updateUserRequest } = useSelector(store => store.auth);
+  const { currentUser, updateUserRequest } = useSelector((store: RootStateOrAny) => store.auth);
   const [isEdit, setIsEdit] = useState(false);
   const { values, handleChange, setValues } = useForm({
     name: '',
     email: '',
     password: ''
   });
-  const formSubmit = (e) => {
+  const formSubmit = (e: FormEvent) => {
     e.preventDefault();
     dispatch(updateCurrentUser(getCookie('accessToken'), {
       name: values.name,
@@ -72,7 +72,6 @@ const Profile = () => {
               onChange={handleChange}
               name={'name'}
               icon={'EditIcon'}
-              required
               disabled={!isEdit}
               onIconClick={() => setIsEdit(true)}
             />
@@ -93,8 +92,6 @@ const Profile = () => {
               onChange={handleChange}
               icon={"LockIcon"}
               name={'password'}
-              autocomplete={"off"}
-              readonly
               disabled
             />
           </fieldset>

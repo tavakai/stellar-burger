@@ -3,13 +3,14 @@ import styles from '../form.module.css';
 import { useForm } from '../../hooks/useForm';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../utils/api';
+import { FC, FormEvent } from 'react';
 
-const ForgotPassword = () => {
+const ForgotPassword: FC = () => {
   const navigate = useNavigate();
   const { values, handleChange } = useForm({
     email: ''
   });
-  const submitForm = (e) => {
+  const submitForm = (e: FormEvent) => {
     e.preventDefault();
     api.forgotPassword(values.email)
       .then(res => {

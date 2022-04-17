@@ -1,16 +1,17 @@
 import style from './BurgerIngredientsCard.module.css';
+import { FC } from 'react';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 import { showModal } from '../../../services/actions/actionCreators/modals';
 import { currentIngredient } from '../../../services/actions/actionCreators/ingredients';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import { useDrag } from "react-dnd";
 import { useLocation, Link } from 'react-router-dom';
+import { IIngredientCard, IIngredient } from '../../../utils/types';
 
-const BurgerIngredientsCard = ({ ingredient, id }) => {
+const BurgerIngredientsCard: FC<IIngredientCard> = ({ ingredient, id }) => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { ingredientsInConstructor, bunsCount, buns } = useSelector(store => store.burgerConstructor);
+  const { ingredientsInConstructor, bunsCount, buns } = useSelector((store: RootStateOrAny) => store.burgerConstructor);
   const [{ isDrag }, dragRef] = useDrag({
     type: ingredient.type,
     item: { id },
@@ -21,7 +22,7 @@ const BurgerIngredientsCard = ({ ingredient, id }) => {
 
   function getIngredientCount() {
     let counter = 0;
-    ingredientsInConstructor.forEach(item => {
+    ingredientsInConstructor.forEach((item: IIngredient) => {
       if (id === item._id) {
         counter += 1;
       }
@@ -63,10 +64,6 @@ const BurgerIngredientsCard = ({ ingredient, id }) => {
       </div>
     </Link>
   )
-}
-
-BurgerIngredientsCard.propTypes = {
-  ingredient: PropTypes.object.isRequired
 }
 
 export default BurgerIngredientsCard;

@@ -1,18 +1,19 @@
 import style from './IngredientDetails.module.css';
-import { useEffect, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useMemo, FC } from 'react';
+import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
 import { useParams, useLocation } from 'react-router-dom';
 import { currentIngredient } from '../../services/actions/actionCreators/ingredients';
 import { showModal } from '../../services/actions/actionCreators/modals';
+import { IIngredient } from '../../utils/types';
 
-const IngredientDetails = () => {
+const IngredientDetails: FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { id } = useParams();
-  const { ingredients, modal } = useSelector(store => store.ingredients);
-  const state = location.state && location.state.background;
+  const { ingredients } = useSelector((store: RootStateOrAny) => store.ingredients);
+  const state = location.state as { background?: Location }
   const ingredient = useMemo(
-    () => ingredients.find(item => item._id === id),
+    () => ingredients.find((item: IIngredient) => item._id === id),
     [ingredients, id],
   );
 
@@ -29,7 +30,7 @@ const IngredientDetails = () => {
         ingredient ? (
           <section className={style.section}>
             <div className={style.wrapper}>
-            {!state && <h1 className={style.title}>Детали ингредиента</h1>}
+            {!state?.background && <h1 className={style.title}>Детали ингредиента</h1>}
             <img className={style.image} src={ingredient.image_large} alt={ingredient.name} />
             <h3 className={style.name}>{ingredient.name}</h3>
             <ul className={style.list}>

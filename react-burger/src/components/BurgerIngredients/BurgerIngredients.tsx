@@ -1,17 +1,18 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect, useMemo, useRef } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useMemo, useRef, FC } from "react";
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import { getIngredients } from '../../services/actions/ingredients';
 import style from "./BurgerIngredients.module.css";
 import style_2 from "./BurgerIngredientsTypesList/BurgerIngredientsTypeList.module.css";
 import { switchTab } from '../../services/actions/actionCreators/tabs';
 import BurgerIngredientsCard from "./BurgerIngredientsCard/BurgerIngredientsCard";
 import { useSwitchTab } from "../../hooks/useSwitchTab";
+import { IIngredient } from "../../utils/types";
 
-const BurgerIngredients = () => {
+const BurgerIngredients: FC = () => {
   const dispatch = useDispatch();
-  const { ingredients } = useSelector(store => store.ingredients);
-  const { activeTab } = useSelector(store => store.tabs);
+  const { ingredients } = useSelector((store: RootStateOrAny) => store.ingredients);
+  const { activeTab } = useSelector((store: RootStateOrAny) => store.tabs);
   const rootRef = useRef(document.querySelector(`.${style.list_wrapper}`));
   const targetElements = document.querySelectorAll(`.${style_2.section}`);
   const {currentTab} = useSwitchTab({
@@ -20,13 +21,13 @@ const BurgerIngredients = () => {
       threshold: [1, 0.3, 0.5]
     }, targetElements)
 
-  const _BUN_ = useMemo(() => ingredients.filter((el) => el.type === "bun"), [ingredients]);
-  const _MAIN_ = useMemo(() => ingredients.filter((el) => el.type === "main"), [ingredients]);
-  const _SAUCE_ = useMemo(() => ingredients.filter((el) => el.type === "sauce"), [ingredients]);
+  const _BUN_ = useMemo(() => ingredients.filter((el: IIngredient) => el.type === "bun"), [ingredients]);
+  const _MAIN_ = useMemo(() => ingredients.filter((el: IIngredient) => el.type === "main"), [ingredients]);
+  const _SAUCE_ = useMemo(() => ingredients.filter((el: IIngredient) => el.type === "sauce"), [ingredients]);
   
-  function tabClick(event) {
+  function tabClick(event: any) {
     window.scrollTo({
-      top: document.getElementById(event).offsetTop,
+      top: document.getElementById(event)?.offsetTop,
       behavior: 'smooth'
     })
     dispatch(switchTab(event))
@@ -90,7 +91,7 @@ const BurgerIngredients = () => {
             >
             <h2 className={`${style_2.title} ${style_2.test}`}>{list.title}</h2>
             <div className={style_2.list}>
-              {list.data.map((el) => {
+              {list.data.map((el: IIngredient) => {
               return <BurgerIngredientsCard key={el._id} ingredient={el} id={el._id}/>
               })}
             </div>
