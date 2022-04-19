@@ -18,6 +18,7 @@ import { useEffect, FC } from 'react';
 import { getCookie } from '../../utils/getCookie';
 import { getCurrentUser } from '../../services/actions/auth';
 import { getIngredients } from '../../services/actions/ingredients';
+import { PageNotFound } from '../../pages/404/PageNotFound';
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -26,8 +27,7 @@ const App: FC = () => {
   const { orderRequest } = useSelector((store: RootStateOrAny) => store.order);
   const { loggedIn } = useSelector((store: RootStateOrAny) => store.auth);
   const location = useLocation();
-  // const fromPage = location.state?.from?.pathname || '/';
-  const fromPage = location.state as { from?: any }
+  const fromPage = location.state as { from?: Location }
   const state = location.state as { background?: Location };
 
   const handleHideModal = () => {
@@ -47,10 +47,9 @@ const App: FC = () => {
       <AppHeader />
       <main className={style.main}>
         <Routes location={state?.background || location}>
-          <Route path='/' element={<Layout />} />
           <Route path='/login' element={
             loggedIn ? (
-              <Navigate to={fromPage?.from.pathname} />
+              <Navigate to={fromPage?.from?.pathname || '/'} />
             ) : (<Login />)
           } />
           <Route path='/register' element={
@@ -74,9 +73,11 @@ const App: FC = () => {
               <Profile />
             </ProtectedRoute>
           } />
+          <Route path='/' element={<Layout />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
         {
-          state &&
+          state?.background &&
           <Routes>
             <Route path='/ingredients/:id' element={
               <Modal hideModal={handleHideModal} title={"Детали ингредиента"} >

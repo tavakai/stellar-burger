@@ -1,10 +1,14 @@
+import { IUserFetch, IApiProps } from './types';
+
 class Api {
-  constructor({ baseUrl, headers }) {
-    this._baseUrl = baseUrl;
-    this.headers = headers;
+  _baseUrl: string
+  headers: HeadersInit
+  constructor(props: IApiProps) {
+    this._baseUrl = props.baseUrl;
+    this.headers = props.headers;
   }
   // Регистрация
-  register(data) {
+  register(data: IUserFetch) {
     return fetch(`${this._baseUrl}/auth/register`, {
       method: 'POST',
       headers: this.headers,
@@ -17,7 +21,7 @@ class Api {
     .then(this._getResponseData);
   };
   // Авторизация
-  authorize = (user) => {
+  authorize = (user: IUserFetch) => {
     return fetch(`${this._baseUrl}/auth/login`, {
       method: 'POST',
       headers: this.headers,
@@ -30,7 +34,7 @@ class Api {
     .then(this._getResponseData);
   };
   // Восстановление пароля
-  forgotPassword = (email) => {
+  forgotPassword = (email: string) => {
     return fetch(`${this._baseUrl}/password-reset`, {
       method: 'POST',
       headers: this.headers,
@@ -42,7 +46,7 @@ class Api {
     .then(this._getResponseData);
   }
   // Обновление токена
-  refreshToken = (refreshToken) => {
+  refreshToken = (refreshToken: string) => {
     return fetch(`${this._baseUrl}/auth/token`, {
       method: 'POST',
       headers: this.headers,
@@ -54,7 +58,7 @@ class Api {
     .then(this._getResponseData);
   }
   // Сброс пароля
-  resetPassword = ({password, token}) => {
+  resetPassword = (password: string, token: string) => {
     return fetch(`${this._baseUrl}/password-reset/reset`, {
       method: 'POST',
       headers: this.headers,
@@ -67,7 +71,7 @@ class Api {
     .then(this._getResponseData);
   }
   // Получение пользователя
-  getUser(token) {
+  getUser(token: string) {
     return fetch(`${this._baseUrl}/auth/user`, {
       method: 'GET',
       headers: {
@@ -79,7 +83,7 @@ class Api {
     .then(this._getResponseData);
   };
   // Изменение пользователя
-  updateUser(token, user) {
+  updateUser(token: string, user: IUserFetch) {
     return fetch(`${this._baseUrl}/auth/user`, {
       method: 'PATCH',
       headers: {
@@ -102,7 +106,7 @@ class Api {
     .then(this._getResponseData);
   }
   // Создание заказа. Принимаем массив из ингредиентов
-  createOrder(details) {
+  createOrder(details: String[]) {
     return fetch(`${this._baseUrl}/orders`, {
       headers: this.headers,
       method: "POST",
@@ -112,7 +116,7 @@ class Api {
     }).then(this._getResponseData);
   }
   //  Выход из системы
-  logOut = (refreshToken) => {
+  logOut = (refreshToken: string) => {
     return fetch(`${this._baseUrl}/auth/logout`, {
       method: 'POST',
       headers: this.headers,
@@ -124,7 +128,7 @@ class Api {
     .then(this._getResponseData);
   }
   // Проверка ответа запроса
-  _getResponseData(response) {
+  _getResponseData(response: Response) {
     if (!response.ok) {
       return Promise.reject(`Ошибка: ${response.status}`);
     }

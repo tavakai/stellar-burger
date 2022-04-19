@@ -15,7 +15,7 @@ const Register: FC = () => {
     email: '',
     password: ''
   });
-  const handleChangeInput = (e: ChangeEvent) => {
+  const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     handleChange(e);
   };
   const formSubmit = (e: FormEvent) => {

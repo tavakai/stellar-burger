@@ -17,7 +17,7 @@ const Login: FC = () => {
     password: ''
   });
   const fromPage = location.state as { from?: any }
-  const handleChangeInput = (e: ChangeEvent) => {
+  const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     handleChange(e);
   };
   const handleSubmit = (e: FormEvent) => {
@@ -26,7 +26,8 @@ const Login: FC = () => {
   }
   useEffect(() => {
     if(loggedIn) {
-      navigate(fromPage?.from);
+      console.log(fromPage)
+      navigate(fromPage?.from?.pathname);
     }
   }, [loggedIn])
 

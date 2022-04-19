@@ -13,7 +13,7 @@ const ResetPassword: FC = () => {
   });
   const formSubmit = (e: FormEvent) => {
     e.preventDefault();
-    api.resetPassword(values)
+    api.resetPassword(values.password, values.token)
       .then(res => {
         if(res && res.success) {
           navigate('/login')

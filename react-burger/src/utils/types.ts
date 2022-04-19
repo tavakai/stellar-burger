@@ -1,4 +1,3 @@
-import { Location } from "history";
 import { ReactElement, ReactNode } from "react";
 
 export interface IIngredient {
@@ -54,4 +53,16 @@ export interface IModalOverlay {
 
 export interface IProtectedRoute {
   children: ReactElement
+}
+
+export interface IUserFetch {
+  name?: string,
+  email?: string,
+  password?: string | number,
+  token?: string
+}
+
+export interface IApiProps {
+  baseUrl: string,
+  headers: HeadersInit
 }

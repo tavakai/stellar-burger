@@ -39,7 +39,7 @@ const BurgerConstructor: FC = () => {
     }
   }
 
-  const deleteIngredient = (key: string) => {
+  const deleteIngredient = (key: string | undefined) => {
     if(key !== undefined) {
        dispatch(deleteIngredientFromConstructor(key))
     } else {
@@ -67,7 +67,7 @@ const BurgerConstructor: FC = () => {
         text={buns.name + ' (верх)'}
         price={buns.price}
         thumbnail={buns.image}
-        handleClose={() => deleteIngredient}
+        handleClose={() => deleteIngredient(undefined)}
       />
         ) : (
           <div className={style.bun_plug_top}>
@@ -84,7 +84,7 @@ const BurgerConstructor: FC = () => {
              <BurgerConstructorItem 
               key={el.key}
               ingredient={el}
-              handleClose={() => deleteIngredient}
+              handleClose={() => deleteIngredient(el.key)}
               moveIngredient={moveIngredient}
               index={index}
               />
@@ -105,7 +105,7 @@ const BurgerConstructor: FC = () => {
         text={buns.name + ' (низ)'}
         price={buns.price}
         thumbnail={buns.image}
-        handleClose={() => deleteIngredient}
+        handleClose={() => deleteIngredient(undefined)}
       />
         ) : (
           <div className={style.bun_plug_bottom}>
