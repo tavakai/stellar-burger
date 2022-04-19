@@ -25,12 +25,12 @@ const BurgerIngredients: FC = () => {
   const _MAIN_ = useMemo(() => ingredients.filter((el: IIngredient) => el.type === "main"), [ingredients]);
   const _SAUCE_ = useMemo(() => ingredients.filter((el: IIngredient) => el.type === "sauce"), [ingredients]);
   
-  function tabClick(event: any) {
+  function tabClick(tabName: string) {
     window.scrollTo({
-      top: document.getElementById(event)?.offsetTop,
+      top: document.getElementById(tabName)?.offsetTop,
       behavior: 'smooth'
     })
-    dispatch(switchTab(event))
+    dispatch(switchTab(tabName))
   }
   
   const arrayTypesList = [
