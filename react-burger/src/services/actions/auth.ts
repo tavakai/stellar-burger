@@ -1,3 +1,4 @@
+import { IUser } from './../../utils/types';
 import api from "../../utils/api";
 import { setCookie } from "../../utils/setCookie";
 import {
@@ -12,18 +13,19 @@ import {
   updateUserFailed
 } from './actionCreators/auth';
 import { getCookie } from '../../utils/getCookie';
+import { AppDispatch } from './../../utils/types';
 
 // Авторизация
-export function signIn(form) {
-  return function (dispatch) {
+export function signIn(formValues: IUser) {
+  return function (dispatch: AppDispatch) {
     dispatch(getAuthRequest());
-    api.authorize(form)
+    api.authorize(formValues)
       .then(res => {
         if (res && res.success) {
           const accessToken = res.accessToken.split('Bearer ')[1];
           const refreshToken = res.refreshToken;
-          setCookie('accessToken', accessToken);
-          setCookie('refreshToken', refreshToken);
+          setCookie('accessToken', accessToken, null);
+          setCookie('refreshToken', refreshToken, null);
           dispatch(getAuthSuccess(res.user))
         } else {
           dispatch(getAuthFailed());
@@ -35,9 +37,11 @@ export function signIn(form) {
       })
   }
 };
+
 // Запрос пользователя
-export function getCurrentUser(token) {
-  return function (dispatch) {
+export function getCurrentUser(token: string) {
+  return function (dispatch: AppDispatch) {
+    // dispatch(getAuthRequest());
     api.getUser(token)
       .then(res => {
         console.log('1 getUser')
@@ -46,13 +50,17 @@ export function getCurrentUser(token) {
         }
       })
       .catch(err => {
+        console.log('rej')
+        // setCookie("accessToken", "", { expires: -1, path: '/' });
+        // setCookie("refreshToken", "", { expires: -1, path: '/' });
         api.refreshToken(getCookie('refreshToken'))
           .then(res => {
             if (res && res.success) {
               const accessToken = res.accessToken.split('Bearer ')[1];
               const refreshToken = res.refreshToken;
-              setCookie('accessToken', accessToken);
-              setCookie('refreshToken', refreshToken);
+              setCookie('accessToken', accessToken, { path: '/' });
+              setCookie('refreshToken', refreshToken, { path: '/' });
+              console.log('token updated')
               api.getUser(accessToken)
                 .then(res => {
                   if (res && res.success) {
@@ -61,12 +69,15 @@ export function getCurrentUser(token) {
                 })
             }
           })
+          .catch(err => {
+            console.log(err)
+          })
       })
   }
 }
 // Изменение пользователя
-export function updateCurrentUser(token, user) {
-  return function(dispatch) {
+export function updateCurrentUser(token: string, user: IUser) {
+  return function(dispatch: AppDispatch) {
     dispatch(updateUserRequest());
     api.updateUser(token, user)
       .then(res => {
@@ -83,12 +94,14 @@ export function updateCurrentUser(token, user) {
 }
 // Выход из системы
 export function logOut() {
-  return function(dispatch) {
+  return function(dispatch: AppDispatch) {
     api.logOut(getCookie('refreshToken'))
       .then(res => {
         if (res && res.success) {
-          document.cookie = 'accessToken=; path=/; expires=-1';
-          document.cookie = 'refreshToken=; path=/; expires=-1';
+          setCookie("accessToken", "", { expires: -1, path: '/' });
+          setCookie("refreshToken", "", { expires: -1, path: '/' });
+          // document.cookie = 'accessToken=; path=/; expires=-1';
+          // document.cookie = 'refreshToken=; path=/; expires=-1';
           dispatch(signOut());
         }
       })

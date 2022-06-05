@@ -5,11 +5,12 @@ import { showModal } from '../../../services/actions/actionCreators/modals';
 import { currentIngredient } from '../../../services/actions/actionCreators/ingredients';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import { useDrag } from "react-dnd";
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { IIngredientCard, IIngredient } from '../../../utils/types';
 
 const BurgerIngredientsCard: FC<IIngredientCard> = ({ ingredient, id }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
   const { ingredientsInConstructor, bunsCount, buns } = useSelector((store: RootStateOrAny) => store.burgerConstructor);
   const [{ isDrag }, dragRef] = useDrag({
@@ -37,16 +38,19 @@ const BurgerIngredientsCard: FC<IIngredientCard> = ({ ingredient, id }) => {
 
   function handleClickOnCard() {
     dispatch(currentIngredient(ingredient))
+    navigate(`/ingredients/${id}`, {
+      state: { background: location },
+    });
     dispatch(showModal())
   }
 
   return (
-    <Link 
-      to={`/ingredients/${id}`}
-      state={{background: location}}
-      key={id} 
-      className={style.link}
-      >
+    // <Link 
+    //   to={`/ingredients/${id}`}
+    //   state={{background: location}}
+    //   key={id} 
+    //   className={style.link}
+    //   >
       <div ref={dragRef} className={style.wrapper} onClick={() => handleClickOnCard()} >
         {
           getIngredientCount() !== 0 ? (
@@ -62,7 +66,7 @@ const BurgerIngredientsCard: FC<IIngredientCard> = ({ ingredient, id }) => {
           {ingredient.name}
         </p>
       </div>
-    </Link>
+    // </Link>
   )
 }
 

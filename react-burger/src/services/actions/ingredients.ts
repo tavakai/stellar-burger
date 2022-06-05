@@ -8,9 +8,10 @@ import {
   clearConstructor
 } from './actionCreators/ingredients';
 import api from '../../utils/api';
+import { AppDispatch } from '../../utils/types';
 
 export function getIngredients() {
-  return function (dispatch) {
+  return function (dispatch: AppDispatch) {
     dispatch(getIngredientsRequest());
     api.getIngredients().then(res => {
       if (res && res.success) {
@@ -26,8 +27,8 @@ export function getIngredients() {
   }
 }
 
-export function createOrder(ingredients) {
-  return function (dispatch) {
+export function createOrder(ingredients: Array<string>) {
+  return function (dispatch: AppDispatch) {
     dispatch(getOrderRequest());
     api.createOrder(ingredients).then(res => {
       if (res && res.success) {

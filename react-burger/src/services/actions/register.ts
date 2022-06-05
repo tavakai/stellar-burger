@@ -4,14 +4,16 @@ import {
   getRegisterSuccess,
   getRegisterRequest
 } from './actionCreators/register';
+import { AppDispatch, IUser } from "../../utils/types";
 
-export function signUp(user) {
-  return function (dispatch) {
+export function signUp(user: IUser) {
+  return function (dispatch: AppDispatch) {
     dispatch(getRegisterRequest());
     api.register(user)
       .then(res => {
         if (res && res.success) {
-          dispatch(getRegisterSuccess(res.user))
+          const user = res.user;
+          dispatch(getRegisterSuccess())
         } else {
           dispatch(getRegisterFailed())
         }

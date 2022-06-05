@@ -1,14 +1,7 @@
-.profile_section {
+.section {
   display: grid;
   width: 100%;
   grid-template-columns: 1fr 1fr 1fr;
-  composes: mt-30 from global;
-}
-.orders_section {
-  display: grid;
-  width: 100%;
-  grid-template-columns: 1fr minmax(200px, 844px);
-  column-gap: 60px;
   composes: mt-30 from global;
 }
 .nav {

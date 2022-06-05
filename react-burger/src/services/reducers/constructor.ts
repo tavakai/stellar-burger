@@ -1,3 +1,4 @@
+import { IConstructorState, TConstructorActions } from '../actions/actionTypes';
 import {
   ADD_INGREDIENT_IN_CONSTRUCTOR,
   DELETE_INGREDIENT_IN_CONSTRUCTOR,
@@ -5,9 +6,9 @@ import {
   ADD_BUN,
   DELETE_BUN,
   CLEAR_CONSTRUCTOR
-} from '../actions/actionTypes';
+} from '../actions/constants';
 
-const initialState = {
+const initialState: IConstructorState = {
   buns: null,
   bunsCount: 2, // всегда две булки
   ingredientsInConstructor: [],
@@ -15,7 +16,7 @@ const initialState = {
   totalPrice: 0,
 }
 
-export const constructorReducer = (state = initialState, action) => {
+export const constructorReducer = (state = initialState, action: TConstructorActions) => {
   switch(action.type) {
     case ADD_INGREDIENT_IN_CONSTRUCTOR: {
       return {

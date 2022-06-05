@@ -1,0 +1,92 @@
+.wrapper {
+  background-color: #1C1C21;
+  composes: p-6 from global;
+  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  width: 584px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.linkWrapper {
+  text-decoration: none;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+}
+.info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  composes: mb-6 from global;
+}
+.number {
+  composes: text text_type_digits-default from global;
+}
+.date {
+  color: #8585AD;
+  composes: text_type_digits-small from global;
+}
+.name {
+  margin: 0;
+  text-align: left;
+}
+.status {
+  text-align: left;
+  composes: mt-2 text text_type_digits-small from global;
+}
+.status_completed {
+  composes: status;
+  color: #00CCCC;
+}
+.details {
+  composes: mt-6 from global;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.buns {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row-reverse;
+}
+.buns img {
+  background-color: #131316;
+  border-radius: 50%;
+  height: 64px;
+  object-fit: cover;
+  width: 64px;
+  display: inline-flex;
+}
+.hiddenIcons {
+  border-radius: 50%;
+  line-height: 64px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 64px;
+  background-color: rgba(28, 28, 33, 0.6);
+}
+.bunsItem {
+  width: 64px;
+  margin-right: -10px;
+  background: linear-gradient(90deg, #801AB2, #4C4CFF);
+  border-radius: 50%;
+  display: flex;
+  align-content: center;
+  padding: 2px;
+  position: relative;
+}
+.price {
+  display: flex;
+  align-items: center;
+}
+.price svg {
+  width: 22px;
+  height: 22px;
+}
+.sum {
+  composes: mr-2 text text_type_main-medium from global;
+}

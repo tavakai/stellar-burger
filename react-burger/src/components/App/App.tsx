@@ -3,13 +3,13 @@ import AppHeader from '../AppHeader/AppHeader';
 import style from './App.module.css';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import OrderDetails from '../OrderDetails/OrderDetails';
+import OrderDetailsModal from '../OrderDetailsModal/OrderDetailsModal';
 import { hideModal } from '../../services/actions/actionCreators/modals';
 import Preloader from '../Preloader/Preloader';
 import { Routes, Route, useLocation, Navigate, useNavigate } from 'react-router-dom';
 import Login from '../../pages/Login/Login';
 import Register from '../../pages/Register/Register';
-import Layout from '../Layout/Layout';
+import MainLayout from '../Layout/Layout';
 import ForgotPassword from '../../pages/Forgot-password/Forgot-password';
 import ResetPassword from '../../pages/Reset-password/Reset-password';
 import Profile from '../../pages/Profile/Profile';
@@ -19,13 +19,15 @@ import { getCookie } from '../../utils/getCookie';
 import { getCurrentUser } from '../../services/actions/auth';
 import { getIngredients } from '../../services/actions/ingredients';
 import { PageNotFound } from '../../pages/404/PageNotFound';
+import { Feed } from '../../pages/Feeds/Feed';
+import OrderDetailsPage from '../OrderDetailsPage/OrderDetailsPage';
 
 const App: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { orderNumber, orderSuccess } = useSelector((store: RootStateOrAny) => store.order);
-  const { orderRequest } = useSelector((store: RootStateOrAny) => store.order);
+  const { orderNumber, orderSuccess, orderRequest } = useSelector((store: RootStateOrAny) => store.order);
   const { loggedIn } = useSelector((store: RootStateOrAny) => store.auth);
+  const { ingredients } = useSelector((store: RootStateOrAny) => store.ingredients);
   const location = useLocation();
   const fromPage = location.state as { from?: Location }
   const state = location.state as { background?: Location };
@@ -36,11 +38,12 @@ const App: FC = () => {
   }
 
   useEffect(() => {
-    dispatch(getIngredients());
-    if (getCookie('accessToken')) {
-      dispatch(getCurrentUser(getCookie('accessToken')));
-    }
-  }, []); 
+    if(ingredients.length === 0) {
+      dispatch(getIngredients());
+    }    
+    dispatch(getCurrentUser(getCookie('accessToken')));
+    console.log('test')
+  }, []);
   
   return (
     <div className={style.App}>
@@ -73,18 +76,32 @@ const App: FC = () => {
               <Profile />
             </ProtectedRoute>
           } />
-          <Route path='/' element={<Layout />} />
+          <Route path='/profile/orders/:number' element={<OrderDetailsPage />} />
+          <Route path='/feed' element={<Feed />} />
+          <Route path='/feed/:number' element={<OrderDetailsPage />} />
+          <Route path='/' element={<MainLayout />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
         {
-          state?.background &&
-          <Routes>
+          state?.background && (
+            <Routes>
             <Route path='/ingredients/:id' element={
               <Modal hideModal={handleHideModal} title={"Детали ингредиента"} >
                 <IngredientDetails />
               </Modal>
             } />
+             <Route path='/feed/:number' element={
+              <Modal hideModal={handleHideModal}>
+                <OrderDetailsPage />
+              </Modal>
+            } />
+            <Route path="/profile/orders/:number" element={
+                <Modal hideModal={handleHideModal}>
+                  <OrderDetailsPage />
+              </Modal>
+              } />
           </Routes>
+          )
         }
         {
           orderRequest ? (
@@ -92,7 +109,7 @@ const App: FC = () => {
           ) : (
             orderNumber && orderSuccess &&
             <Modal hideModal={handleHideModal} header >
-              <OrderDetails />
+              <OrderDetailsModal />
             </Modal>
           )
         }

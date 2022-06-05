@@ -54,11 +54,11 @@ const BurgerIngredients: FC = () => {
     dispatch(switchTab(currentTab))
   }, [currentTab])
   
-  useEffect(() => {
-    if(ingredients.length === 0) {
-      dispatch(getIngredients());
-    }
-  }, [ingredients])
+  // useEffect(() => {
+  //   if(ingredients.length === 0) {
+  //     dispatch(getIngredients());
+  //   }
+  // }, [ingredients])
 
   return (
     <section className={style.section}>

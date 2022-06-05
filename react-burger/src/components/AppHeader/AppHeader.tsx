@@ -9,20 +9,20 @@ const AppHeader: FC = () => {
       <nav className={styles.nav}>
         <ul className={styles.list}>
           <li className={styles.nav__items_first}>
-            <a href="#" className={styles.nav__link}>
+            <Link to="/" className={styles.nav__link}>
               <BurgerIcon type="primary" />
               <p className={styles.nav__text}>
               Конструктор
               </p>
-            </a>
+            </Link>
           </li>
           <li className={styles.nav__items}>
-          <a href="#" className={styles.nav__link}>
+          <Link to="feed" className={styles.nav__link}>
               <ListIcon type="secondary" />
               <p className={styles.nav__text_secondary}>
               Лента заказов
               </p>
-            </a>
+            </Link>
           </li>
         </ul>
         <Link to="/">

@@ -1,3 +1,4 @@
+import { getCookie } from './getCookie';
 import { IUserFetch, IApiProps } from './types';
 
 class Api {
@@ -108,13 +109,24 @@ class Api {
   // Создание заказа. Принимаем массив из ингредиентов
   createOrder(details: String[]) {
     return fetch(`${this._baseUrl}/orders`, {
-      headers: this.headers,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: 'Bearer ' + getCookie('accessToken')
+      },
       method: "POST",
       body: JSON.stringify({
-        ingredients: details,
+        ingredients: details
       }),
     }).then(this._getResponseData);
   }
+  // Получение заказа по id
+  getOrderByNumber = (number: any) => {
+    return fetch(`${this._baseUrl}/orders/${number}`, {
+      method: "GET",
+      headers: this.headers,
+    }).then(this._getResponseData);
+  };
   //  Выход из системы
   logOut = (refreshToken: string) => {
     return fetch(`${this._baseUrl}/auth/logout`, {

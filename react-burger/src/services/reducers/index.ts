@@ -1,3 +1,4 @@
+import { wsFeedsReducer } from './wsFeeds';
 import { combineReducers } from 'redux';
 import { tabsReducer } from './tabs';
 import { constructorReducer } from './constructor';
@@ -11,18 +12,19 @@ import {
   CURRENT_INGREDIENT,
   SHOW_MODAL,
   HIDE_MODAL
-} from '../actions/actionTypes';
+} from '../actions/constants';
+import { IIngredientsState, TIngredientsActions } from '../actions/actionTypes';
 
-const initialState = {
+const initialState: IIngredientsState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,
 
-  currentIngredient: null,
+  modalContent: null,
   modal: false
 }
 
-export const ingredientReducer = (state = initialState, action) => {
+export const ingredientReducer = (state = initialState, action: TIngredientsActions) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
@@ -47,7 +49,7 @@ export const ingredientReducer = (state = initialState, action) => {
     case CURRENT_INGREDIENT: {
       return {
         ...state,
-        currentIngredient: action.currentIngredient
+        modalContent: action.currentIngredient
       }
     }
     case SHOW_MODAL: {
@@ -60,7 +62,6 @@ export const ingredientReducer = (state = initialState, action) => {
       return {
         ...state,
         modal: false,
-        // currentIngredient: null
       };
     }
     default: {
@@ -75,5 +76,6 @@ export const rootReducer = combineReducers({
   burgerConstructor: constructorReducer,
   order: orderReducer,
   register: registerReducer,
-  auth: authReducer
+  auth: authReducer,
+  feed: wsFeedsReducer
 });

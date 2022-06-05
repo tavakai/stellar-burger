@@ -1,3 +1,4 @@
+import { IAuthState, TAuthActions, TUserActions } from './../actions/actionTypes';
 import {
   GET_AUTH_REQUEST,
   GET_AUTH_SUCCESS,
@@ -8,9 +9,9 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILED,
   SIGN_OUT
-} from '../actions/actionTypes';
+} from '../actions/constants';
 
-const initialState = {
+const initialState: IAuthState = {
   loggedIn: false,
 
   authRequest: false,
@@ -27,7 +28,7 @@ const initialState = {
   updateUserFailed: false
 }
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action: TAuthActions | TUserActions) => {
   switch (action.type) {
     case GET_AUTH_REQUEST: {
       return {

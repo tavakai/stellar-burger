@@ -1,4 +1,4 @@
-export function setCookie(name: string, value: string, props: any) {
+export function setCookie(name: string, value: string, props: any | null) {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {

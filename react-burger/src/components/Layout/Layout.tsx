@@ -4,7 +4,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { FC } from 'react';
 
-const Layout: FC = () => {
+const MainLayout: FC = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -14,4 +14,4 @@ const Layout: FC = () => {
   );
 }
 
-export default Layout;
+export default MainLayout;

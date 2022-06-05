@@ -1,9 +1,9 @@
-import style from './OrderDetails.module.css';
+import style from './OrderDetailsModal.module.css';
 import doneIcon from '../../images/icons/done.png';
 import { useSelector, RootStateOrAny } from 'react-redux';
 import { FC } from 'react';
 
-const OrderDetails: FC = () => {
+const OrderDetailsModal: FC = () => {
   const { orderNumber } = useSelector((store: RootStateOrAny) => store.order);
   return (
     <div className={style.wrapper}>
@@ -16,4 +16,4 @@ const OrderDetails: FC = () => {
   )
 }
 
-export default OrderDetails;
+export default OrderDetailsModal;
