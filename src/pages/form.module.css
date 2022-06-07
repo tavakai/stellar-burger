@@ -1,0 +1,41 @@
+.section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  composes: mt-25 from global;
+}
+.form_wrapper {
+  composes: mt-20 from global;
+  display: flex;
+  flex-direction: column;
+}
+.form {
+  max-width: 480px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  composes: mb-20 from global;
+}
+.fieldset {
+  border: none;
+  display: grid;
+  row-gap: 24px;
+  padding: 0;
+  composes: mb-6 from global;
+}
+.form_title {
+  composes: mb-6 text text_type_main-medium from global;
+}
+.form_text {
+  composes: mb-4 from global;
+  /* margin: 0; */
+  color: #8585AD;
+}
+.form_link {
+  color: #4C4CFF;
+  text-decoration: none;
+}
