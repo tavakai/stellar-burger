@@ -1,0 +1,59 @@
+.profile_section {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
+  composes: mt-30 from global;
+}
+.orders_section {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr minmax(200px, 844px);
+  column-gap: 60px;
+  composes: mt-30 from global;
+}
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 30px;
+}
+.items {
+  composes: text text_type_main-medium from global;
+  text-decoration: none;
+  color: #8585AD;
+}
+.items:hover {
+  color: #ffffff;
+}
+.description {
+  composes: text text_type_main-default mt-20 from global;
+  color: #8585AD;
+  opacity: .4;
+  text-align: left;
+}
+.form_wrapper {
+  display: flex;
+  justify-content: center;
+}
+.signOut_btn {
+  composes: items;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.cta {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
+.editButtonCancel {
+  color: #4C4CFF;
+  composes: text_type_main-default from global;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.active {
+  composes: items;
+  color: #ffffff;
+}

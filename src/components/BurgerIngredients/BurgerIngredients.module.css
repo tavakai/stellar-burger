@@ -1,0 +1,37 @@
+.section {
+  display: flex;
+  max-width: 600px;
+  font-family: 'JetBrains Mono';
+  flex-direction: column;
+  composes: mb-10 from global;
+}
+.title {
+  color: #F2F2F3;
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: bold;
+  text-align: left;
+  composes: mb-5 mt-10 from global;
+}
+.tabsContainer {
+  display: flex;
+  composes: mb-10 from global;
+}
+.tabs_title {
+  text-decoration: none;
+}
+.list_wrapper {
+  height: 60vh;
+  overflow-y: overlay;
+  overflow-x: hidden;
+}
+.list_wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+.list_wrapper::-webkit-scrollbar-track {
+  background-color: #2F2F37;
+  margin-bottom: 52px;
+}
+.list_wrapper::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}

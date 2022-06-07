@@ -1,0 +1,83 @@
+.wrapper {
+  composes: mt-25 from global;
+  max-width: 600px;
+  width: 100%;
+}
+.bun_plug {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #2f2f37;
+  border: 3px dashed #8585AD;
+  height: 100px;
+}
+.bun_plug_top {
+  composes: bun_plug;
+  border-top-left-radius: 130px;
+  border-top-right-radius: 130px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+}
+.bun_plug_bottom {
+  composes: bun_plug;
+  border-bottom-left-radius: 130px;
+  border-bottom-right-radius: 130px;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+}
+.list_plug {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 496px;
+}
+.list {
+  height: 496px;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  gap: 16px;
+  composes: mt-4 mb-4 ml-0 mr-4 from global;
+  padding: 0;
+}
+.list_item {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  column-gap: 8px;
+  align-items: center;
+  width: 100%;
+  cursor: move;
+  opacity: 1;
+}
+.list_item_drag {
+  composes: list_item from global;
+  opacity: 0;
+}
+.list::-webkit-scrollbar {
+  width: 8px;
+}
+.list::-webkit-scrollbar-track {
+  background-color: #2F2F37;        /* color of the tracking area */
+  margin-bottom: 106px;
+}
+.list::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}
+.totalPrice_wrapper {
+  display: flex;
+  justify-content: flex-end;
+  composes: mt-10 mr-4 from global;
+  align-items: center;
+}
+.totalPrice_icon {
+  composes: mr-10 ml-2 from global;
+  display: flex;
+}
+.totalPrice_icon svg {
+  height: 33px;
+  width: 33px;
+}
+.totalPrice_value {
+  composes: text text_type_digits-medium  from global;
+}
