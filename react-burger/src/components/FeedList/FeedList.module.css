@@ -1,0 +1,38 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 584px;
+  width: 100%;
+  /* composes: mr-15 from global; */
+}
+.orders_wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 884px;
+  width: 100%;
+  composes: mr-15 from global;
+}
+.list {
+  margin: 0;
+  padding: 0 16px 0 0;
+  width: 100%;
+  max-height: 75vh;
+  overflow-y: overlay;
+  overflow-x: hidden;
+  display: grid;
+  row-gap: 24px;
+  /* composes: pr-4 from global; */
+}
+.list::-webkit-scrollbar {
+  width: 8px;
+}
+.list::-webkit-scrollbar-track {
+  background-color: #2F2F37;
+  margin-bottom: 52px;
+}
+.list::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}
+.listItem {
+  list-style-type: none;
+}
