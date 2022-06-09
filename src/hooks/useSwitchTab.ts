@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 export const useSwitchTab = function (options: IntersectionObserverInit, targetEl: NodeListOf<Element>) {
   const [currentTab, setCurrentTab] = useState<string | null>();
 
-  const callback = function (entries: IntersectionObserverEntry[], observer: IntersectionObserver) {
+  const callback = function (entries: IntersectionObserverEntry[], observer: any) {
     const [entry] = entries;
     const {isIntersecting,target,intersectionRatio} = entry;
     if(isIntersecting && intersectionRatio > 0.3) {

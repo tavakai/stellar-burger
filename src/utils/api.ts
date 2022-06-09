@@ -107,7 +107,7 @@ class Api {
     .then(this._getResponseData);
   }
   // Создание заказа. Принимаем массив из ингредиентов
-  createOrder(details: Array<string | undefined>) {
+  createOrder(details: String[]) {
     return fetch(`${this._baseUrl}/orders`, {
       headers: {
         Accept: "application/json",

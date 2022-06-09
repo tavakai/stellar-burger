@@ -27,7 +27,7 @@ export function getIngredients() {
   }
 }
 
-export function createOrder(ingredients: Array<string | undefined>) {
+export function createOrder(ingredients: Array<string>) {
   return function (dispatch: AppDispatch) {
     dispatch(getOrderRequest());
     api.createOrder(ingredients).then(res => {

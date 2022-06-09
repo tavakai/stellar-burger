@@ -1,3 +1,5 @@
+import { WS_ORDERS_GET_INFO, WS_USER_GET_INFO } from './../actions/constants';
+import { RootStateOrAny } from 'react-redux';
 import { AppDispatch, RootState } from './../../utils/types';
 import { Middleware, MiddlewareAPI } from 'redux';
 import { TWSOrdersActions, TWSUserActions } from './../actions/wsActionTypes';
