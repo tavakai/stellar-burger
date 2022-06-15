@@ -23,7 +23,7 @@ const Order: FC = () => {
       const mainIngredientsArray = ingredientsInConstructor.map((item: IIngredient) => {
         return item._id
       })
-      const orderArray: Array<string | undefined> = [...mainIngredientsArray, buns?._id, buns?._id];
+      const orderArray: any = [...mainIngredientsArray, buns?._id, buns?._id];
       dispatch(createOrder(orderArray))
       dispatch(showModal())
     }

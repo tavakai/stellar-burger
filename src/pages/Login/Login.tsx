@@ -26,6 +26,7 @@ const Login: FC = () => {
   }
   useEffect(() => {
     if(loggedIn) {
+      console.log(fromPage)
       navigate(fromPage?.from?.pathname);
     }
   }, [loggedIn])
