@@ -57,7 +57,7 @@ const BurgerConstructor: FC = () => {
   }
 
   return (
-    <section className={style.wrapper} ref={constructorDrag}>
+    <section className={style.wrapper} ref={constructorDrag} data-cy="constructor_list" >
       
       {
         buns !== null ? (

@@ -45,7 +45,7 @@ const BurgerIngredientsCard: FC<IIngredientCard> = ({ ingredient, id }) => {
   }
 
   return (
-      <div ref={dragRef} className={style.wrapper} onClick={() => handleClickOnCard()} >
+      <div ref={dragRef} className={style.wrapper} onClick={() => handleClickOnCard()} data-cy={id} >
         {
           getIngredientCount() !== 0 ? (
             <Counter count={getIngredientCount()} size="default" />

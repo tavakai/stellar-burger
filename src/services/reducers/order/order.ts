@@ -1,12 +1,12 @@
-import { IOrderState, TOrderActions } from '../actions/actionTypes';
+import { IOrderState, TOrderActions } from '../../actions/actionTypes';
 import {
   GET_ORDER_REQUEST,
   GET_ORDER_FAILED,
   GET_ORDER_SUCCESS,
   GET_ORDER_BY_NUMBER
-} from '../actions/constants';
+} from '../../actions/constants';
 
-const initialState: IOrderState = {
+export const initialState: IOrderState = {
   orderRequest: false,
   orderFailed: false,
   orderSuccess: false,

@@ -47,7 +47,7 @@ const BurgerConstructorItem: FC<IConstructorItem> = ({ingredient, index, handleC
   itemDrag(itemDrop(ref));
 
   return (
-    <li className={style.list_item} style={{...style, opacity}} ref={ref} >
+    <li className={style.list_item} style={{...style, opacity}} ref={ref} data-cy="constructor_ingredient" >
     <DragIcon type="primary" />
     <ConstructorElement
     text={ingredient.name}
