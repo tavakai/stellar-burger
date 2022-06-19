@@ -9,7 +9,7 @@ import store from './services/store/index';
 
 ReactDOM.render(
   <React.StrictMode>
-    <HashRouter basename="/stellar-burger">
+    <HashRouter basename="/">
     <Provider store={store}>
       <App />
     </Provider>

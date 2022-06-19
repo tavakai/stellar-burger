@@ -12,7 +12,6 @@
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
     "@ya.praktikum/react-developer-burger-ui-components": "^1.13.1",
-    "gh-pages": "^4.0.0",
     "prop-types": "^15.8.1",
     "react": "^16.8.6",
     "react-dnd": "^15.1.1",
@@ -36,7 +35,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "predeploy gh-pages -d build"
+    "deploy": "npm run build && gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -70,6 +69,7 @@
     "enzyme-adapter-react-16": "^1.15.6",
     "eslint-plugin-cypress": "^2.12.1",
     "fetch-mock": "^9.11.0",
+    "gh-pages": "^4.0.0",
     "react-test-renderer": "^18.2.0",
     "redux-mock-store": "^1.5.4"
   }
