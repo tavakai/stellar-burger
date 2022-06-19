@@ -4,4 +4,4 @@
 
 Космическая бургерная с возможностью собрать и заказать свой индивидуальный бургер.
 
-##[Stellar burger](https://tavakai.github.io/stellar-burger/)
+[Ссылка на проект](https://tavakai.github.io/stellar-burger/)
