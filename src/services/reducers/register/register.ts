@@ -1,11 +1,11 @@
-import { IRegisterState, TRegisterActions } from '../actions/actionTypes';
+import { IRegisterState, TRegisterActions } from '../../actions/actionTypes';
 import {
   GET_REGISTER_REQUEST,
   GET_REGISTER_FAILED,
   GET_REGISTER_SUCCESS
-} from '../actions/constants';
+} from '../../actions/constants';
 
-const initialState: IRegisterState = {
+export const initialState: IRegisterState = {
   registerRequest: false,
   registerFailed: false,
   registerSuccess: false

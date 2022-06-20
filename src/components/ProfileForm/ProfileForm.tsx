@@ -74,10 +74,10 @@ const ProfileForm: FC = () => {
         {
           isEdit && (
             <div className={styles.cta}>
-              <button className={styles.editButtonCancel} onClick={() => setIsEdit(false)}>
+              <Button onClick={() => setIsEdit(false)} htmlType="reset">
                 отмена
-              </button>
-              <Button type="primary" size="small" disabled={updateUserRequest} >
+              </Button>
+              <Button type="primary" size="small" disabled={updateUserRequest} htmlType="submit" >
                 Сохранить
               </Button>
             </div>

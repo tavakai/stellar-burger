@@ -1,4 +1,4 @@
-import { IAuthState, TAuthActions, TUserActions } from './../actions/actionTypes';
+import { IAuthState, TAuthActions, TUserActions } from '../../actions/actionTypes';
 import {
   GET_AUTH_REQUEST,
   GET_AUTH_SUCCESS,
@@ -9,9 +9,9 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILED,
   SIGN_OUT
-} from '../actions/constants';
+} from '../../actions/constants';
 
-const initialState: IAuthState = {
+export const initialState: IAuthState = {
   loggedIn: false,
 
   authRequest: false,

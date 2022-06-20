@@ -26,7 +26,7 @@ const Modal: FC<IModal> = ({ hideModal, header, children, title }) => {
   return ReactDOM.createPortal(
     <>
       <ModalOverlay closeModal={hideModal}>
-        <div className={style.wrapper} onClick={(e) => e.stopPropagation()}>
+        <div className={style.wrapper} onClick={(e) => e.stopPropagation()} data-cy="modal">
           <div className={!header ? style.header : style.header_none}>
             {
               !header && <h3 className={style.title}>{title}</h3>

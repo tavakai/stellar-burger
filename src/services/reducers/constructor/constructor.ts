@@ -1,4 +1,4 @@
-import { IConstructorState, TConstructorActions } from '../actions/actionTypes';
+import { IConstructorState, TConstructorActions } from '../../actions/actionTypes';
 import {
   ADD_INGREDIENT_IN_CONSTRUCTOR,
   DELETE_INGREDIENT_IN_CONSTRUCTOR,
@@ -6,9 +6,9 @@ import {
   ADD_BUN,
   DELETE_BUN,
   CLEAR_CONSTRUCTOR
-} from '../actions/constants';
+} from '../../actions/constants';
 
-const initialState: IConstructorState = {
+export const initialState: IConstructorState = {
   buns: null,
   bunsCount: 2, // всегда две булки
   ingredientsInConstructor: [],

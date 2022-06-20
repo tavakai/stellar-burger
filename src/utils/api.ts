@@ -121,7 +121,7 @@ class Api {
     }).then(this._getResponseData);
   }
   // Получение заказа по id
-  getOrderByNumber = (number: any) => {
+  getOrderByNumber = (number: string | undefined) => {
     return fetch(`${this._baseUrl}/orders/${number}`, {
       method: "GET",
       headers: this.headers,

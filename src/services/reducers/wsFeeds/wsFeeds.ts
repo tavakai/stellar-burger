@@ -1,4 +1,4 @@
-import { TWSFeedActions } from './../actions/wsActionTypes';
+import { TWSFeedActions } from '../../actions/wsActionTypes';
 import {
   WS_ORDERS_CONNECTION_START,
   WS_ORDERS_CONNECTION_CLOSED,
@@ -10,10 +10,10 @@ import {
   WS_USER_CONNECTION_CLOSED,
   WS_ORDERS_CONNECTION_ERROR,
   WS_USER_GET_INFO
-} from './../actions/constants';
-import { IOrdersFeedState } from "../actions/wsActionTypes";
+} from '../../actions/constants';
+import { IOrdersFeedState } from "../../actions/wsActionTypes";
 
-const initialState: IOrdersFeedState = {
+export const initialState: IOrdersFeedState = {
   orders: {
     orders: [],
     total: 0,

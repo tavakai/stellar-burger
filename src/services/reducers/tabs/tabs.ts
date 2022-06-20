@@ -1,9 +1,9 @@
-import { ISwitchTabsState, TSwitchTabActions,  } from '../actions/actionTypes';
+import { ISwitchTabsState, TSwitchTabActions,  } from '../../actions/actionTypes';
 import {
   SWITCH_TAB
-} from '../actions/constants';
+} from '../../actions/constants';
 
-const initialState: ISwitchTabsState = {
+export const initialState: ISwitchTabsState = {
   activeTab: "Булки"
 }
 

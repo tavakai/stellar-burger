@@ -1,10 +1,10 @@
-import { wsFeedsReducer } from './wsFeeds';
+import { wsFeedsReducer } from '../wsFeeds/wsFeeds';
 import { combineReducers } from 'redux';
-import { tabsReducer } from './tabs';
-import { constructorReducer } from './constructor';
-import { orderReducer } from './order';
-import { registerReducer } from './register';
-import { authReducer } from './auth';
+import { tabsReducer } from '../tabs/tabs';
+import { constructorReducer } from '../constructor/constructor';
+import { orderReducer } from '../order/order';
+import { registerReducer } from '../register/register';
+import { authReducer } from '../auth/auth';
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
@@ -12,10 +12,10 @@ import {
   CURRENT_INGREDIENT,
   SHOW_MODAL,
   HIDE_MODAL
-} from '../actions/constants';
-import { IIngredientsState, TIngredientsActions } from '../actions/actionTypes';
+} from '../../actions/constants';
+import { IIngredientsState, TIngredientsActions } from '../../actions/actionTypes';
 
-const initialState: IIngredientsState = {
+export const initialState: IIngredientsState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,
